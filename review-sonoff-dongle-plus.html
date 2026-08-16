@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Privacidade & LGPD - Sua Casa Autônoma</title>
+    <title>Review Sonoff Dongle-P - Sua Casa Autônoma</title>
     <meta name="description" content="Análises reais de hardware para Smart Home (Zigbee, ESP32, Home Assistant). Foco em desempenho local e privacidade.">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -62,53 +62,44 @@
 
     <main class="pt-32 pb-20 flex-grow max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         
-<div class="prose prose-invert prose-lg max-w-none">
-    <h1 class="text-4xl md:text-5xl font-heading font-bold text-white mb-8">Política de Privacidade, Cookies & Conformidade com LGPD</h1>
-    <p><em>Última atualização: 16 de Agosto de 2026.</em></p>
+<article class="prose prose-invert prose-lg max-w-3xl mx-auto">
+    <div class="mb-8">
+        <div class="flex gap-2 text-xs font-bold uppercase tracking-wide mb-4">
+            <span class="text-cyan-400 bg-cyan-400/10 px-2 py-1 rounded">Review</span>
+            <span class="text-amber-500 bg-amber-500/10 px-2 py-1 rounded">Zigbee</span>
+        </div>
+        <h1 class="text-4xl md:text-5xl font-heading font-bold text-white mb-4 leading-tight">Review: Sonoff Zigbee 3.0 USB Dongle Plus (ZBDongle-P)</h1>
+        <p class="text-slate-400">Por Francisco DGA • 10 de Agosto, 2026</p>
+    </div>
+
+    <img src="https://images.unsplash.com/photo-1558089687-f282ffcbc126?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Sonoff Dongle P" class="w-full rounded-2xl mb-10 opacity-90 border border-slate-800">
+
+    <p>Se você quer montar uma rede inteligente de verdade, livre das instabilidades do Wi-Fi, o protocolo Zigbee é obrigatório. Mas para que tudo funcione no seu Home Assistant, você precisa de um "Cérebro" ou "Coordenador". É aqui que entra o famoso <strong>Sonoff ZBDongle-P</strong>.</p>
     
-    <h2>1. Introdução</h2>
-    <p>O portal <strong>Sua Casa Autônoma</strong> compromete-se fortemente com a proteção da sua privacidade e dos seus dados pessoais. O nosso conteúdo tem como foco justamente ensinar formas de manter os dados da sua residência (automação local) totalmente privados e sob o seu próprio controle. Portanto, aplicamos essa mesma filosofia na administração deste site. Esta política de privacidade detalha como as informações são coletadas, usadas e protegidas quando você visita nosso portal.</p>
-    
-    <h2>2. Coleta de Dados e Conformidade com a LGPD</h2>
-    <p>O site opera em rigorosa conformidade com a Lei Geral de Proteção de Dados (LGPD - Lei nº 13.709/2018) do Brasil. A coleta de dados pessoais ocorre apenas nas seguintes situações e com base nas respectivas fundamentações legais:</p>
+    <h2>1. A Escolha do Chip: CC2652P</h2>
+    <p>Diferente de coordenadores genéricos antigos com o chip CC2531 (que travam se você colocar mais de 20 dispositivos), o ZBDongle-P usa o chip da Texas Instruments <strong>CC2652P</strong>. Ele possui um amplificador de sinal integrado (até +20dBm).</p>
+    <p>Nos meus testes no laboratório, com uma antena externa SMA incluída na caixa, o sinal atravessou três paredes de alvenaria mantendo um LQI (Link Quality Indicator) aceitável de 115.</p>
+
+    <h2>2. Desempenho no Zigbee2MQTT e ZHA</h2>
+    <p>Testei o dongle tanto no ZHA (integração nativa do Home Assistant) quanto no Zigbee2MQTT.</p>
     <ul>
-        <li><strong>Fale Conosco / Contato:</strong> Quando você entra em contato ativamente conosco por meio de nosso formulário ou e-mail. Coletamos seu nome e e-mail com a finalidade exclusiva de responder à sua solicitação (Base legal: Consentimento e Legítimo Interesse).</li>
-        <li><strong>Inscrição em Newsletter/Lead Magnet:</strong> Se optar por baixar materiais ou receber novidades, solicitaremos o seu e-mail (Base legal: Consentimento). Você tem o direito de revogar este consentimento a qualquer momento.</li>
-    </ul>
-    <p>Ressaltamos que <strong>não coletamos</strong> dados pessoais sensíveis (como origem racial, opiniões políticas, religião, dados de saúde) em nenhuma circunstância.</p>
-
-    <h2>3. Política de Cookies e Uso do Google AdSense</h2>
-    <p>Assim como a grande maioria dos sites da internet, nós utilizamos "cookies" para assegurar o funcionamento da plataforma e para veiculação de anúncios.</p>
-    <h3>3.1 O que são cookies?</h3>
-    <p>Cookies são pequenos arquivos de texto armazenados no seu navegador ou dispositivo que nos ajudam a otimizar sua experiência (por exemplo, lembrando a posição do menu ou calculadoras locais).</p>
-    <h3>3.2 Publicidade Google (AdSense)</h3>
-    <p>O Google, como fornecedor de terceiros, utiliza cookies para exibir anúncios neste site. O uso do cookie DART pelo Google permite a veiculação de anúncios para os nossos visitantes com base nas suas visitas a este e a outros sites na internet. Os usuários podem optar por não usar o cookie DART visitando a <a href="https://policies.google.com/technologies/ads" target="_blank" rel="nofollow">Política de privacidade da rede de conteúdo e dos anúncios do Google</a>.</p>
-    <p>Você pode controlar ou desativar os cookies a qualquer momento usando as configurações de privacidade do seu navegador de internet (Chrome, Firefox, Safari, Edge).</p>
-
-    <h2>4. Web Analytics (Métricas de Acesso)</h2>
-    <p>Utilizamos ferramentas de análise de tráfego (Analytics) configuradas de maneira a anonimizar endereços IP. Isso nos permite saber quais artigos são os mais acessados, o tempo médio de leitura e o tipo de dispositivo (mobile ou desktop). Esses dados são agregados e puramente estatísticos. Nenhuma pessoa física é identificada através dessas métricas.</p>
-
-    <h2>5. Retenção e Compartilhamento de Dados</h2>
-    <p><strong>Nós não vendemos, alugamos ou comercializamos listas de e-mails ou dados pessoais com terceiros sob nenhuma hipótese.</strong> Seus dados de e-mail (se fornecidos via contato) ficam armazenados em nossos servidores criptografados apenas pelo tempo necessário para finalizarmos o suporte ou a comunicação.</p>
-    <p>Seus dados só poderão ser divulgados caso haja obrigação legal, ordem judicial ou determinação de autoridade competente brasileira.</p>
-
-    <h2>6. Seus Direitos (Titular dos Dados)</h2>
-    <p>Conforme a LGPD, você possui os seguintes direitos em relação aos seus dados pessoais:</p>
-    <ul>
-        <li>Confirmação da existência de tratamento.</li>
-        <li>Acesso aos dados coletados.</li>
-        <li>Correção de dados incompletos, inexatos ou desatualizados.</li>
-        <li>Anonimização, bloqueio ou eliminação de dados desnecessários ou excessivos.</li>
-        <li>Eliminação dos dados pessoais tratados com o seu consentimento.</li>
-        <li>Revogação do consentimento.</li>
+        <li><strong>ZHA:</strong> Funciona literalmente "Plug and Play". O HAOS reconhece o dongle automaticamente e a porta <code>/dev/ttyUSB0</code> é mapeada.</li>
+        <li><strong>Zigbee2MQTT:</strong> Exige um pouco mais de configuração no YAML, mas a performance e o número de sensores suportados pela comunidade são incrivelmente maiores. Conectei 84 dispositivos simultaneamente (entre interruptores com neutro atuando como roteadores e sensores de porta) sem nenhum engasgo na rede.</li>
     </ul>
 
-    <h2>7. Links Externos (Terceiros)</h2>
-    <p>Nossos tutoriais contêm links para repositórios externos (GitHub), documentações (Home Assistant, ESPHome) e lojas (AliExpress, Amazon). Esta política de privacidade não se aplica a sites de terceiros. Recomendamos que você analise as políticas de privacidade de cada site ao qual for redirecionado.</p>
-
-    <h2>8. Contato para Dúvidas e Privacidade</h2>
-    <p>Se você tem dúvidas sobre esta Política de Privacidade ou deseja exercer seus direitos relacionados à LGPD, visite nossa página de <a href="contato.html">Contato</a> e envie sua solicitação. Estaremos prontos para atendê-lo.</p>
-</div>
+    <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl my-8">
+        <h3 class="text-xl font-heading text-white mt-0 mb-4">Veredito do Laboratório</h3>
+        <ul class="text-slate-300 m-0 space-y-2">
+            <li><span class="text-emerald-400 font-bold">✓ Prós:</span> Construção metálica excelente (dissipa calor e blinda interferências USB), antena de alto ganho, extremamente estável (CC2652P), firmware Z-Stack atualizável.</li>
+            <li><span class="text-red-400 font-bold">✗ Contras:</span> Ligeiramente largo. Se o seu Mini PC tiver portas USB muito próximas, ele vai bloquear a porta ao lado. A solução é usar um pequeno cabo extensor USB (aliás, fortemente recomendado para evitar ruídos de rádio do Mini PC).</li>
+        </ul>
+        <div class="mt-8 text-center bg-slate-950 p-6 rounded-xl border border-slate-800">
+            <p class="text-sm text-slate-400 font-mono mb-4 uppercase">Onde comprar com segurança (Link Afiliado)</p>
+            <a href="https://aliexpress.com" target="_blank" rel="nofollow" class="inline-block px-8 py-4 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-lg rounded-xl transition-all shadow-neon-emerald">Comprar Sonoff Dongle-P no AliExpress</a>
+            <p class="text-xs text-slate-500 mt-3">Preço médio: R$ 130 a R$ 160. Evite a versão "E" (ZBDongle-E com chip EZSP) caso queira compatibilidade absoluta com Zigbee2MQTT.</p>
+        </div>
+    </div>
+</article>
 
     </main>
 

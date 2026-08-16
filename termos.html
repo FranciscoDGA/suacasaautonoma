@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Termos de Uso - Sua Casa Autônoma</title>
+    <meta name="description" content="Análises reais de hardware para Smart Home (Zigbee, ESP32, Home Assistant). Foco em desempenho local e privacidade.">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -14,11 +15,13 @@
                     colors: {
                         slate: { 50: '#F8FAFC', 100: '#F1F5F9', 400: '#94A3B8', 800: '#1E293B', 900: '#131B2E', 950: '#0B0F19' },
                         cyan: { 400: '#38BDF8', 500: '#06B6D4' },
-                        emerald: { 400: '#34D399', 500: '#10B981' }
+                        emerald: { 400: '#34D399', 500: '#10B981' },
+                        amber: { 400: '#FBBF24', 500: '#F59E0B' }
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
                         heading: ['Space Grotesk', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
                     }
                 }
             }
@@ -29,10 +32,13 @@
         h1, h2, h3 { font-family: 'Space Grotesk', sans-serif; }
         .glass-panel { backdrop-filter: blur(12px); background-color: rgba(11, 15, 25, 0.85); }
         .prose p { margin-bottom: 1.25em; line-height: 1.75; color: #94A3B8; }
-        .prose h2 { font-size: 1.875rem; font-weight: 700; margin-top: 2em; margin-bottom: 1em; color: #F1F5F9; }
-        .prose h3 { font-size: 1.5rem; font-weight: 700; margin-top: 1.5em; margin-bottom: 0.75em; color: #F1F5F9; }
+        .prose h2 { font-size: 1.875rem; font-weight: 700; margin-top: 2em; margin-bottom: 1em; color: #F1F5F9; font-family: 'Space Grotesk', sans-serif; }
+        .prose h3 { font-size: 1.5rem; font-weight: 700; margin-top: 1.5em; margin-bottom: 0.75em; color: #F1F5F9; font-family: 'Space Grotesk', sans-serif; }
         .prose ul { list-style-type: disc; padding-left: 1.5em; margin-bottom: 1.25em; color: #94A3B8; }
         .prose li { margin-bottom: 0.5em; }
+        .prose a { color: #38BDF8; text-decoration: none; }
+        .prose a:hover { text-decoration: underline; }
+        .card-hover:hover { transform: translateY(-3px); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5); border-color: rgba(6, 182, 212, 0.3); transition: all 0.2s ease; }
     </style>
 </head>
 <body class="bg-slate-950 text-slate-100 antialiased flex flex-col min-h-screen">
@@ -45,33 +51,56 @@
                     </div>
                     <h1 class="font-heading font-bold text-xl leading-tight">Sua Casa<br><span class="text-cyan-400">Autônoma</span></h1>
                 </a>
-                <nav class="hidden md:flex space-x-8 items-center">
-                    <a href="index.html" class="text-sm font-medium text-slate-400 hover:text-cyan-400 transition-colors">Início</a>
-                    <a href="index.html" class="text-sm font-medium text-slate-400 hover:text-cyan-400 transition-colors">Tutoriais</a>
+                <nav class="hidden md:flex space-x-6 lg:space-x-8 items-center">
+                    <a href="index.html" class="text-sm font-medium text-slate-300 hover:text-cyan-400 transition-colors">Início</a>
+                    <a href="blog.html" class="text-sm font-bold text-cyan-400 border-b-2 border-cyan-400 pb-1">Blog & Reviews</a>
+                    <a href="index.html#tutoriais" class="text-sm font-medium text-slate-400 hover:text-cyan-400 transition-colors">Home Assistant</a>
                 </nav>
             </div>
         </div>
     </header>
 
-    <main class="pt-32 pb-20 flex-grow max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+    <main class="pt-32 pb-20 flex-grow max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         
 <div class="prose prose-invert prose-lg max-w-none">
-    <h1 class="text-4xl md:text-5xl font-heading font-bold text-white mb-8">Termos de Uso & Divulgação de Afiliados</h1>
+    <h1 class="text-4xl md:text-5xl font-heading font-bold text-white mb-8">Termos de Uso e Divulgação de Afiliados</h1>
+    <p><em>Última atualização: 16 de Agosto de 2026.</em></p>
     
-    <h2>1. Isenção de Responsabilidade Técnica (DIY)</h2>
-    <p>Automação residencial muitas vezes lida com energia elétrica de alta tensão (110v/220v). O conteúdo deste site possui caráter estritamente <strong>educacional</strong>. Não nos responsabilizamos por perdas financeiras, danos em hardware (choques ou curtos), incêndios ou acidentes decorrentes da execução por conta própria de tutoriais elétricos.</p>
-    <p>Recomendamos expressamente a contratação de um <strong>eletricista qualificado</strong> para a instalação física de relés em quadros de distribuição e interruptores de parede.</p>
-    
-    <h2>2. Programa de Afiliados e Transparência</h2>
-    <p>Para manter a imparcialidade nas reviews e cobrir os custos de servidor (além da aquisição constante de novos hardwares para laboratório), utilizamos links de afiliados de lojas confiáveis como <strong>Amazon Brasil</strong> e <strong>AliExpress</strong>.</p>
+    <h2>1. Aceitação dos Termos</h2>
+    <p>Ao acessar, ler ou aplicar qualquer tutorial, projeto ou código disponibilizado no portal <strong>Sua Casa Autônoma</strong>, você concorda expressa e integralmente com todos os termos listados nesta página. Se você discorda de qualquer parte destes termos, solicitamos educadamente que não faça uso do nosso conteúdo.</p>
+
+    <h2>2. Isenção de Responsabilidade Técnica (Projetos DIY & Elétricos)</h2>
+    <p>Este é o ponto mais crucial do nosso portal. A automação residencial (Smart Home) e projetos do tipo "Faça Você Mesmo" (DIY) envolvem, com grande frequência, manuseio de energia elétrica de alta tensão (110v, 220v ou superior).</p>
     <ul>
-        <li>Quando você clica em um link de hardware recomendado e finaliza a compra, nós podemos receber uma pequena comissão.</li>
-        <li><strong>Isso NÃO altera o preço final do produto para você.</strong></li>
-        <li>Nós <strong>nunca</strong> recomendamos um produto ruim apenas para gerar comissão. Se está no site, passou no teste de homologação local (Zigbee2MQTT, ESPHome, ZHA).</li>
+        <li><strong>Fins Educacionais:</strong> Todo o conteúdo, diagramas, esquemas elétricos e códigos (YAML, C++, Python) deste site possuem caráter estritamente educacional. Eles representam configurações que funcionaram em laboratório.</li>
+        <li><strong>Risco Elétrico e Danos:</strong> Não nos responsabilizamos por perdas financeiras, danos a hardwares, eletrodomésticos, choques elétricos, curtos-circuitos, incêndios ou acidentes de qualquer natureza decorrentes da execução (por conta própria) dos tutoriais aqui publicados.</li>
+        <li><strong>Recomendação Forte:</strong> Aconselhamos vigorosamente a contratação de um <strong>eletricista qualificado e certificado</strong> para a instalação de dispositivos de automação dentro de quadros de distribuição elétrica, interruptores de parede ou locais de difícil acesso.</li>
     </ul>
+
+    <h2>3. Divulgação de Afiliados e Transparência Monetária</h2>
+    <p>O portal <em>Sua Casa Autônoma</em> adota a transparência absoluta sobre sua forma de financiamento. Manter servidores, testar equipamentos caros e dedicar horas à criação de guias exige recursos.</p>
+    <p>Por isso, participamos de diversos <strong>Programas de Afiliados</strong>, incluindo (mas não limitados a):</p>
+    <ul>
+        <li>Programa de Associados Amazon Brasil.</li>
+        <li>Programa de Afiliados AliExpress (Portais Internacionais).</li>
+    </ul>
+    <h3>3.1 O que isso significa na prática?</h3>
+    <p>Quando você clica em um link de recomendação de equipamento (exemplo: um Mini PC ou um Sensor Zigbee) presente em nossas páginas e efetua a compra, o site ganha uma pequena comissão pela indicação. <strong>Isso NÃO gera absolutamente nenhum custo extra para você.</strong> O valor pago pelo produto é exatamente o mesmo, com ou sem o uso do nosso link.</p>
+    <h3>3.2 Imparcialidade nas Reviews</h3>
+    <p>Temos uma regra de ouro: <strong>Nunca recomendamos um produto de má qualidade apenas para gerar receita.</strong> Todo produto avaliado ("Review") passa por nossa bancada de testes de compatibilidade (Zigbee2MQTT, ZHA, Frigate, ESPHome). Se o produto apresentar dependência exclusiva de nuvem de terceiros (falhando no quesito '100% Local'), o artigo deixará isso claro e não terá o selo de recomendação técnica do nosso laboratório.</p>
+
+    <h2>4. Direitos Autorais e Propriedade Intelectual (Copyright)</h2>
+    <p>Todo o texto, artigos, fotografias originais (salvo imagens stock), diagramas e logotipos são de propriedade do portal <em>Sua Casa Autônoma</em>.</p>
+    <ul>
+        <li><strong>Permitido:</strong> Utilizar nossos blocos de código (configurações YAML) para automatizar a sua casa livremente. Compartilhar os links dos nossos artigos em redes sociais e fóruns.</li>
+        <li><strong>Proibido:</strong> A cópia, reprodução (scraping) ou republicação integral de nossos artigos técnicos em outros blogs comerciais ou canais de YouTube visando monetização sem a citação da fonte através de um link ativo (DoFollow) apontando para o artigo original.</li>
+    </ul>
+
+    <h2>5. Interrupção e Alteração de Conteúdo</h2>
+    <p>Reservamo-nos o direito de modificar, atualizar, suspender ou descontinuar páginas, artigos ou tutoriais a qualquer momento, sem aviso prévio, principalmente quando envolvem documentações de sistemas que mudam rapidamente (como quebras de versões do Home Assistant Core).</p>
     
-    <h2>3. Uso do Conteúdo</h2>
-    <p>Os textos e códigos originais do site (templates YAML, automações) podem ser usados livremente na sua casa. Porém, é proibida a cópia integral dos nossos artigos para republicação em outros portais comerciais sem os devidos créditos e links apontando para o original (canonical link).</p>
+    <h2>6. Dúvidas e Questionamentos</h2>
+    <p>Caso tenha dúvidas referentes a qualquer cláusula deste termo ou sobre a transparência do nosso sistema de afiliação, sinta-se à vontade para nos acionar em nossa página de <a href="contato.html">Contato</a>.</p>
 </div>
 
     </main>
@@ -82,6 +111,13 @@
                 <div>
                     <h4 class="font-heading font-bold text-white mb-4">Sua Casa Autônoma</h4>
                     <p class="text-sm text-slate-400">Automação de código aberto, 100% local. Focado em privacidade e controle real.</p>
+                </div>
+                <div>
+                    <h4 class="font-heading font-bold text-white mb-4">Seções</h4>
+                    <ul class="space-y-2 text-sm text-slate-400">
+                        <li><a href="blog.html" class="hover:text-cyan-400 transition-colors">Blog de Reviews de Hardware</a></li>
+                        <li><a href="index.html" class="hover:text-cyan-400 transition-colors">Tutoriais e Guias</a></li>
+                    </ul>
                 </div>
                 <div>
                     <h4 class="font-heading font-bold text-white mb-4">Institucional</h4>
