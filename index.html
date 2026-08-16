@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sua Casa Autônoma - Smart Home Local, Privada e Sem Mensalidades</title>
+    <meta name="description" content="Aprenda a automatizar sua casa sem depender de nuvem. Tutoriais de Home Assistant, Zigbee, ESPHome e muito mais. 100% Local.">
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -21,21 +22,19 @@
                         slate: {
                             50: '#F8FAFC',
                             100: '#F1F5F9',
+                            200: '#E2E8F0',
+                            300: '#CBD5E1',
                             400: '#94A3B8',
+                            500: '#64748B',
+                            600: '#475569',
+                            700: '#334155',
                             800: '#1E293B',
                             900: '#131B2E',
                             950: '#0B0F19',
                         },
-                        cyan: {
-                            400: '#38BDF8',
-                            500: '#06B6D4',
-                        },
-                        emerald: {
-                            500: '#10B981',
-                        },
-                        amber: {
-                            500: '#F59E0B',
-                        }
+                        cyan: { 400: '#38BDF8', 500: '#06B6D4', 600: '#0891B2' },
+                        emerald: { 400: '#34D399', 500: '#10B981', 600: '#059669' },
+                        amber: { 400: '#FBBF24', 500: '#F59E0B', 600: '#D97706' }
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
@@ -53,51 +52,66 @@
     <style>
         body { font-family: 'Inter', sans-serif; background-color: #0B0F19; color: #F1F5F9; }
         h1, h2, h3, h4, h5, h6 { font-family: 'Space Grotesk', sans-serif; }
-        .glass-header { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); background-color: rgba(11, 15, 25, 0.85); }
+        .glass-panel { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); background-color: rgba(11, 15, 25, 0.85); }
         .text-gradient { background: linear-gradient(to right, #38BDF8, #06B6D4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .card-hover { transition: transform 0.2s ease, box-shadow 0.2s ease; }
         .card-hover:hover { transform: translateY(-3px); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 0 15px rgba(6, 182, 212, 0.1); border-color: rgba(6, 182, 212, 0.3); }
         
-        /* Hide scrollbar for clean look */
+        /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #0B0F19; }
         ::-webkit-scrollbar-thumb { background: #1E293B; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #38BDF8; }
+
+        /* Article Typography Styles */
+        .prose p { margin-bottom: 1.25em; line-height: 1.75; color: #CBD5E1; }
+        .prose h2 { font-size: 1.875rem; font-weight: 700; margin-top: 2em; margin-bottom: 1em; color: #F1F5F9; font-family: 'Space Grotesk', sans-serif; }
+        .prose h3 { font-size: 1.5rem; font-weight: 700; margin-top: 1.5em; margin-bottom: 0.75em; color: #F1F5F9; font-family: 'Space Grotesk', sans-serif; }
+        .prose a { color: #38BDF8; text-decoration: none; }
+        .prose a:hover { text-decoration: underline; }
+        .prose ul { list-style-type: disc; padding-left: 1.5em; margin-bottom: 1.25em; color: #CBD5E1; }
+        .prose li { margin-bottom: 0.5em; }
+        
+        /* Modal Animation */
+        .modal-enter { opacity: 0; transform: scale(0.95); }
+        .modal-enter-active { opacity: 1; transform: scale(1); transition: opacity 300ms, transform 300ms; }
+        .modal-exit { opacity: 1; transform: scale(1); }
+        .modal-exit-active { opacity: 0; transform: scale(0.95); transition: opacity 200ms, transform 200ms; }
     </style>
 </head>
-<body class="bg-slate-950 text-slate-100 antialiased selection:bg-cyan-500/30">
+<body class="bg-slate-950 text-slate-100 antialiased selection:bg-cyan-500/30 overflow-x-hidden">
 
     <!-- 1. Header Fixo / Barra de Navegação -->
-    <header class="fixed top-0 w-full z-50 glass-header border-b border-slate-800">
+    <header class="fixed top-0 w-full z-40 glass-panel border-b border-slate-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
                 
                 <!-- Logo -->
-                <div class="flex-shrink-0 flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center shadow-neon-cyan">
+                <a href="#" onclick="showView('home-view')" class="flex-shrink-0 flex items-center gap-3 group cursor-pointer">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center shadow-neon-cyan group-hover:shadow-[0_0_20px_rgba(6,182,212,0.5)] transition-shadow">
                         <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
                     </div>
                     <div>
                         <h1 class="font-heading font-bold text-xl leading-tight">Sua Casa<br><span class="text-cyan-400">Autônoma</span></h1>
                     </div>
                     <span class="hidden lg:inline-block ml-2 px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-emerald-400 bg-emerald-400/10 border border-emerald-400/20 rounded-full">100% Local</span>
-                </div>
+                </a>
 
                 <!-- Desktop Nav -->
                 <nav class="hidden md:flex space-x-6 lg:space-x-8 items-center">
-                    <a href="#" class="text-sm font-medium text-slate-400 hover:text-cyan-400 transition-colors">Comece Aqui</a>
+                    <button onclick="showView('home-view')" class="text-sm font-medium text-slate-300 hover:text-cyan-400 transition-colors">Início</button>
                     <a href="#" class="text-sm font-medium text-slate-400 hover:text-cyan-400 transition-colors">Home Assistant</a>
-                    <a href="#" class="text-sm font-medium text-slate-400 hover:text-cyan-400 transition-colors">Hardware</a>
+                    <a href="#" class="text-sm font-medium text-slate-400 hover:text-cyan-400 transition-colors">Hardware & Review</a>
                     <a href="#" class="text-sm font-medium text-slate-400 hover:text-cyan-400 transition-colors">Projetos DIY</a>
                 </nav>
 
                 <!-- Search & CTA -->
                 <div class="hidden md:flex items-center gap-4">
                     <div class="relative group">
-                        <input type="text" placeholder="Buscar dispositivos..." class="w-48 lg:w-64 bg-slate-900 border border-slate-800 text-sm rounded-full pl-10 pr-4 py-2 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all text-slate-100 placeholder-slate-400">
-                        <svg class="w-4 h-4 text-slate-400 absolute left-3.5 top-2.5 group-focus-within:text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                        <input type="text" placeholder="Buscar..." class="w-40 lg:w-56 bg-slate-900 border border-slate-800 text-sm rounded-full pl-10 pr-4 py-2 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all text-slate-100 placeholder-slate-500">
+                        <svg class="w-4 h-4 text-slate-500 absolute left-3.5 top-2.5 group-focus-within:text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                     </div>
-                    <a href="#guia" class="px-5 py-2.5 bg-cyan-500 hover:bg-cyan-400 text-slate-950 text-sm font-bold rounded-full transition-all shadow-neon-cyan transform hover:scale-105">Guia do Servidor</a>
+                    <button onclick="showView('article-view')" class="px-5 py-2.5 bg-cyan-500 hover:bg-cyan-400 text-slate-950 text-sm font-bold rounded-full transition-all shadow-neon-cyan transform hover:scale-105">Guia do Servidor</button>
                 </div>
 
                 <!-- Mobile menu button -->
@@ -113,374 +127,399 @@
         </div>
 
         <!-- Mobile Menu Panel -->
-        <div id="mobile-menu" class="hidden md:hidden bg-slate-900 border-b border-slate-800 absolute w-full left-0 top-20 shadow-2xl">
+        <div id="mobile-menu" class="hidden md:hidden glass-panel border-b border-slate-800 absolute w-full left-0 top-20 shadow-2xl transition-all">
             <div class="px-4 pt-2 pb-6 space-y-2">
-                <a href="#" class="block px-3 py-3 text-base font-medium text-slate-300 hover:text-white hover:bg-slate-800 rounded-lg">Comece Aqui</a>
+                <button onclick="showView('home-view'); document.getElementById('mobile-menu-btn').click();" class="block w-full text-left px-3 py-3 text-base font-medium text-slate-300 hover:text-white hover:bg-slate-800 rounded-lg">Início</button>
                 <a href="#" class="block px-3 py-3 text-base font-medium text-slate-300 hover:text-white hover:bg-slate-800 rounded-lg">Home Assistant</a>
                 <a href="#" class="block px-3 py-3 text-base font-medium text-slate-300 hover:text-white hover:bg-slate-800 rounded-lg">Hardware & Zigbee</a>
-                <a href="#" class="block px-3 py-3 text-base font-medium text-slate-300 hover:text-white hover:bg-slate-800 rounded-lg">Câmeras Sem Nuvem</a>
                 <a href="#" class="block px-3 py-3 text-base font-medium text-slate-300 hover:text-white hover:bg-slate-800 rounded-lg">Projetos DIY</a>
-                <a href="#calculadora" class="block px-3 py-3 text-base font-medium text-emerald-400 hover:text-emerald-300 hover:bg-slate-800 rounded-lg">Calculadora de Economia</a>
-                
                 <div class="mt-4 pt-4 border-t border-slate-800">
-                    <a href="#guia" class="block w-full text-center px-5 py-3 bg-cyan-500 text-slate-950 font-bold rounded-xl shadow-neon-cyan">Guia do Servidor Local</a>
+                    <button onclick="showView('article-view'); document.getElementById('mobile-menu-btn').click();" class="block w-full text-center px-5 py-3 bg-cyan-500 text-slate-950 font-bold rounded-xl shadow-neon-cyan">Guia do Servidor Local</button>
                 </div>
             </div>
         </div>
     </header>
 
-    <main class="pt-24 pb-20">
+    <!-- Global AdSense Placeholder - Top Leaderboard (728x90) -->
+    <div class="pt-24 pb-4 px-4 hidden md:block">
+        <div class="max-w-4xl mx-auto bg-slate-900 border border-slate-800 border-dashed rounded-lg flex flex-col items-center justify-center h-[90px] relative">
+            <span class="absolute top-1 left-2 text-[10px] text-slate-500 uppercase font-medium">Publicidade</span>
+            <p class="text-slate-600 text-sm font-mono">[ AdSense Placeholder: 728 x 90 Leaderboard ]</p>
+        </div>
+    </div>
+    <!-- Mobile Ad Placeholder -->
+    <div class="pt-24 pb-4 px-4 md:hidden">
+        <div class="w-full max-w-[320px] mx-auto bg-slate-900 border border-slate-800 border-dashed rounded-lg flex flex-col items-center justify-center h-[100px] relative">
+            <span class="absolute top-1 left-2 text-[10px] text-slate-500 uppercase font-medium">Publicidade</span>
+            <p class="text-slate-600 text-xs font-mono text-center px-4">[ AdSense Mobile<br>320x100 ]</p>
+        </div>
+    </div>
+
+    <!-- ============================================== -->
+    <!-- VIEW: HOME (Portal Landing Page)               -->
+    <!-- ============================================== -->
+    <main id="home-view" class="block pb-20">
         
-        <!-- 2. Hero Section -->
-        <section class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24 text-center">
-            <!-- Background Decoration -->
-            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] bg-cyan-500/10 blur-[120px] rounded-full pointer-events-none"></div>
-            
+        <!-- Hero Section -->
+        <section class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-16 text-center">
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-cyan-500/10 blur-[120px] rounded-full pointer-events-none"></div>
             <div class="relative z-10 max-w-4xl mx-auto">
                 <h2 class="font-heading text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 leading-tight">
                     Sua Casa Inteligente de Verdade: <br class="hidden md:block"/>
                     <span class="text-gradient">100% Local, Rápida e Privada</span>
                 </h2>
-                
                 <p class="text-lg md:text-xl text-slate-400 mb-10 max-w-3xl mx-auto leading-relaxed">
                     Aprenda a automatizar iluminação, segurança, climatização e energia sem depender de nuvens externas, sem risco de dados vazados e funcionando mesmo quando a internet cai.
                 </p>
-                
-                <!-- Badges -->
-                <div class="flex flex-wrap justify-center gap-4 mb-12">
-                    <div class="flex items-center gap-2 bg-slate-900 border border-slate-800 px-4 py-2 rounded-full text-sm font-medium text-slate-300 shadow-sm">
-                        <span class="text-cyan-400">⚡</span> Funciona sem Internet
-                    </div>
-                    <div class="flex items-center gap-2 bg-slate-900 border border-slate-800 px-4 py-2 rounded-full text-sm font-medium text-slate-300 shadow-sm">
-                        <span class="text-emerald-400">🔒</span> Privacidade Total
-                    </div>
-                    <div class="flex items-center gap-2 bg-slate-900 border border-emerald-500/30 px-4 py-2 rounded-full text-sm font-medium text-emerald-400 shadow-neon-emerald bg-emerald-500/5">
-                        <span class="text-emerald-400">💰</span> R$ 0 em Assinaturas
-                    </div>
-                </div>
-
-                <!-- Hero Search -->
-                <div class="max-w-2xl mx-auto relative group">
-                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                        <svg class="h-6 w-6 text-slate-500 group-focus-within:text-cyan-500 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                        </svg>
-                    </div>
-                    <input type="text" class="block w-full pl-12 pr-4 py-4 md:py-5 bg-slate-900 border border-slate-700 rounded-2xl text-base md:text-lg text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all shadow-lg" placeholder="Ex: Home Assistant em Mini PC, Melhores sensores Zigbee...">
-                    <button class="absolute inset-y-2 right-2 px-6 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold rounded-xl transition-colors">Buscar</button>
+                <div class="flex flex-wrap justify-center gap-4 mb-10">
+                    <div class="flex items-center gap-2 bg-slate-900 border border-slate-800 px-4 py-2 rounded-full text-sm font-medium text-slate-300 shadow-sm"><span class="text-cyan-400">⚡</span> Funciona sem Internet</div>
+                    <div class="flex items-center gap-2 bg-slate-900 border border-slate-800 px-4 py-2 rounded-full text-sm font-medium text-slate-300 shadow-sm"><span class="text-emerald-400">🔒</span> Privacidade Total</div>
+                    <div class="flex items-center gap-2 bg-slate-900 border border-emerald-500/30 px-4 py-2 rounded-full text-sm font-medium text-emerald-400 shadow-neon-emerald bg-emerald-500/5"><span class="text-emerald-400">💰</span> R$ 0 em Assinaturas</div>
                 </div>
             </div>
         </section>
 
-        <!-- 4. Trilhas de Aprendizado Rápidas -->
-        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-            <h3 class="text-sm font-bold text-slate-500 uppercase tracking-widest mb-6 text-center">Trilhas Essenciais</h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <!-- Track 1 -->
-                <a href="#" class="card-hover bg-slate-900 border border-slate-800 p-6 rounded-2xl flex flex-col items-start group">
-                    <div class="w-12 h-12 rounded-xl bg-cyan-500/10 text-cyan-400 flex items-center justify-center mb-4 group-hover:bg-cyan-500 group-hover:text-slate-950 transition-colors">
-                        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                    </div>
-                    <h4 class="font-heading font-bold text-lg text-slate-100 mb-2">Iniciante no Setup</h4>
-                    <p class="text-sm text-slate-400">O que comprar no primeiro setup. Hub vs. Mini PC dedicado.</p>
-                </a>
-                <!-- Track 2 -->
-                <a href="#" class="card-hover bg-slate-900 border border-slate-800 p-6 rounded-2xl flex flex-col items-start group">
-                    <div class="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center mb-4 group-hover:bg-emerald-500 group-hover:text-slate-950 transition-colors">
-                        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                    </div>
-                    <h4 class="font-heading font-bold text-lg text-slate-100 mb-2">Segurança S/ Nuvem</h4>
-                    <p class="text-sm text-slate-400">Câmeras IP com gravação local e IA de detecção offline.</p>
-                </a>
-                <!-- Track 3 -->
-                <a href="#" class="card-hover bg-slate-900 border border-slate-800 p-6 rounded-2xl flex flex-col items-start group">
-                    <div class="w-12 h-12 rounded-xl bg-amber-500/10 text-amber-500 flex items-center justify-center mb-4 group-hover:bg-amber-500 group-hover:text-slate-950 transition-colors">
-                        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-                    </div>
-                    <h4 class="font-heading font-bold text-lg text-slate-100 mb-2">Conforto & Rotinas</h4>
-                    <p class="text-sm text-slate-400">Ar-condicionado, cortinas motorizadas e iluminação circadiana.</p>
-                </a>
-                <!-- Track 4 -->
-                <a href="#" class="card-hover bg-slate-900 border border-slate-800 p-6 rounded-2xl flex flex-col items-start group">
-                    <div class="w-12 h-12 rounded-xl bg-purple-500/10 text-purple-400 flex items-center justify-center mb-4 group-hover:bg-purple-500 group-hover:text-slate-950 transition-colors">
-                        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0"></path></svg>
-                    </div>
-                    <h4 class="font-heading font-bold text-lg text-slate-100 mb-2">Zigbee vs Matter</h4>
-                    <p class="text-sm text-slate-400">Qual protocolo de comunicação escolher para sua casa.</p>
-                </a>
-            </div>
-        </section>
-
-        <!-- 3. Artigo Principal em Destaque -->
-        <section id="guia" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-            <div class="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl relative group card-hover">
-                <div class="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-900/90 to-transparent z-10"></div>
-                <!-- Placeholder Image - Using a tech pattern gradient -->
-                <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80')] bg-cover bg-center opacity-40"></div>
+        <!-- Featured Article -->
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+            <button onclick="showView('article-view')" class="w-full text-left bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl relative group card-hover cursor-pointer block">
+                <div class="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-900/90 to-transparent z-10"></div>
+                <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80')] bg-cover bg-center opacity-30 group-hover:scale-105 transition-transform duration-700"></div>
                 
-                <div class="relative z-20 p-8 lg:p-12 flex flex-col lg:flex-row items-center lg:items-end justify-between h-full min-h-[400px]">
+                <div class="relative z-20 p-8 lg:p-12 flex flex-col justify-end h-full min-h-[350px]">
                     <div class="max-w-2xl">
-                        <div class="flex flex-wrap gap-3 mb-6">
-                            <span class="px-3 py-1 bg-cyan-500 text-slate-950 text-xs font-bold rounded-full uppercase tracking-wider">Tutorial Passo a Passo</span>
-                            <span class="px-3 py-1 bg-slate-800/80 backdrop-blur text-slate-300 border border-slate-700 text-xs font-medium rounded-full flex items-center gap-1">⏱️ 8 min</span>
-                            <span class="px-3 py-1 bg-slate-800/80 backdrop-blur text-slate-300 border border-slate-700 text-xs font-medium rounded-full flex items-center gap-1">🟢 Iniciante</span>
-                            <span class="px-3 py-1 bg-amber-500/20 text-amber-400 border border-amber-500/30 text-xs font-medium rounded-full flex items-center gap-1">🛠️ Hardware Testado</span>
+                        <div class="flex flex-wrap gap-3 mb-4">
+                            <span class="px-3 py-1 bg-cyan-500 text-slate-950 text-xs font-bold rounded-full uppercase tracking-wider">Novo Guia</span>
+                            <span class="px-3 py-1 bg-slate-800/80 backdrop-blur text-slate-300 border border-slate-700 text-xs font-medium rounded-full flex items-center gap-1">⏱️ 12 min de leitura</span>
                         </div>
-                        <h2 class="font-heading text-3xl md:text-4xl font-bold text-white mb-4 leading-tight">
-                            Guia Definitivo: Como Montar seu Servidor Home Assistant em um Mini PC Usado gastando pouco
+                        <h2 class="font-heading text-3xl md:text-4xl font-bold text-white mb-4 leading-tight group-hover:text-cyan-400 transition-colors">
+                            Guia Definitivo: Como Montar seu Servidor Home Assistant em um Mini PC
                         </h2>
-                        <p class="text-slate-300 text-lg mb-8 max-w-xl">
-                            Abandone os hubs limitados. Aprenda a instalar o sistema operacional mais poderoso para automação residencial em um hardware barato e confiável.
+                        <p class="text-slate-300 text-lg mb-6 max-w-xl">
+                            Abandone os hubs limitados. Aprenda a instalar o sistema operacional mais poderoso para automação em um hardware dedicado.
                         </p>
-                        <a href="#" class="inline-flex items-center justify-center px-6 py-3 bg-white text-slate-950 font-bold rounded-xl hover:bg-slate-200 transition-colors gap-2">
-                            Ler Guia Completo 
-                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-                        </a>
+                        <span class="inline-flex items-center font-bold text-cyan-400 group-hover:text-cyan-300 transition-colors gap-2">
+                            Ler Artigo Completo <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                        </span>
                     </div>
                 </div>
-            </div>
+            </button>
         </section>
 
-        <!-- 5. Grid de Artigos -->
-        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-            <div class="flex justify-between items-end mb-10">
+        <!-- Grid de Artigos Recentes -->
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-4">
                 <div>
-                    <h2 class="font-heading text-3xl font-bold text-slate-100 mb-2">Projetos & Reviews</h2>
-                    <p class="text-slate-400 text-sm">Equipamentos homologados e tutoriais testados na prática.</p>
+                    <h2 class="font-heading text-2xl md:text-3xl font-bold text-slate-100 mb-2">Últimos Tutoriais & Reviews</h2>
+                    <p class="text-slate-400 text-sm">Equipamentos homologados e testados em laboratório próprio.</p>
                 </div>
                 
                 <!-- Filters -->
-                <div class="hidden md:flex gap-2" id="article-filters">
+                <div class="flex flex-wrap gap-2" id="article-filters">
                     <button class="filter-btn active px-4 py-2 bg-slate-800 text-white rounded-lg text-sm font-medium hover:bg-slate-700 transition-colors border border-slate-700" data-filter="all">Todos</button>
                     <button class="filter-btn px-4 py-2 bg-slate-900 text-slate-400 rounded-lg text-sm font-medium hover:bg-slate-800 hover:text-white transition-colors border border-slate-800" data-filter="zigbee">Zigbee</button>
-                    <button class="filter-btn px-4 py-2 bg-slate-900 text-slate-400 rounded-lg text-sm font-medium hover:bg-slate-800 hover:text-white transition-colors border border-slate-800" data-filter="diy">DIY / ESP32</button>
-                    <button class="filter-btn px-4 py-2 bg-slate-900 text-slate-400 rounded-lg text-sm font-medium hover:bg-slate-800 hover:text-white transition-colors border border-slate-800" data-filter="cameras">Câmeras</button>
+                    <button class="filter-btn px-4 py-2 bg-slate-900 text-slate-400 rounded-lg text-sm font-medium hover:bg-slate-800 hover:text-white transition-colors border border-slate-800" data-filter="diy">ESPHome / DIY</button>
                 </div>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="articles-grid">
-                
                 <!-- Card 1 -->
                 <article class="card-hover bg-slate-900 rounded-2xl overflow-hidden border border-slate-800 flex flex-col h-full article-card" data-category="zigbee">
-                    <div class="h-48 bg-slate-800 relative">
-                        <img src="https://images.unsplash.com/photo-1558089687-f282ffcbc126?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Sensores Zigbee" class="w-full h-full object-cover opacity-80">
-                        <div class="absolute top-4 left-4">
-                            <span class="px-2.5 py-1 bg-blue-600 text-white text-[10px] font-bold uppercase rounded-md shadow-md">Zigbee</span>
-                        </div>
+                    <div class="h-48 bg-slate-800 relative overflow-hidden group">
+                        <img src="https://images.unsplash.com/photo-1558089687-f282ffcbc126?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Sensores Zigbee" class="w-full h-full object-cover opacity-70 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500">
+                        <div class="absolute top-4 left-4"><span class="px-2.5 py-1 bg-blue-600 text-white text-[10px] font-bold uppercase rounded-md shadow-md">Review Zigbee</span></div>
                     </div>
                     <div class="p-6 flex flex-col flex-grow">
-                        <h3 class="font-heading text-xl font-bold text-slate-100 mb-3 hover:text-cyan-400 transition-colors"><a href="#">Os 5 Melhores Sensores de Presença Zigbee (2026)</a></h3>
-                        <p class="text-slate-400 text-sm mb-6 flex-grow">Comparativo definitivo entre Aqara, Sonoff e Tuya para automação de iluminação com resposta instantânea e bateria duradoura.</p>
-                        
-                        <div class="mb-6">
-                            <p class="text-xs font-mono text-slate-500 mb-2 uppercase">Hardware Recomendado:</p>
-                            <ul class="text-sm text-slate-300 space-y-1">
-                                <li class="flex items-center gap-2"><span class="text-amber-500">•</span> Sonoff SNZB-06P</li>
-                                <li class="flex items-center gap-2"><span class="text-amber-500">•</span> Aqara FP2 (WiFi/Local)</li>
-                            </ul>
-                        </div>
-                        
-                        <a href="#" class="mt-auto w-full py-2.5 px-4 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-center text-sm font-medium text-white rounded-xl transition-colors">Ler Review Completo</a>
+                        <h3 class="font-heading text-xl font-bold text-slate-100 mb-3 hover:text-cyan-400 transition-colors"><a href="#">Os 5 Melhores Sensores de Presença mmWave (2026)</a></h3>
+                        <p class="text-slate-400 text-sm mb-6 flex-grow">Esqueça os sensores PIR que desligam a luz quando você está parado. Conheça a tecnologia radar milimétrica.</p>
+                        <a href="#" class="mt-auto w-full py-2.5 px-4 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-center text-sm font-medium text-white rounded-xl transition-colors">Ler Review</a>
                     </div>
                 </article>
 
                 <!-- Card 2 -->
                 <article class="card-hover bg-slate-900 rounded-2xl overflow-hidden border border-slate-800 flex flex-col h-full article-card" data-category="diy">
-                    <div class="h-48 bg-slate-800 relative">
-                        <img src="https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Placa ESP32" class="w-full h-full object-cover opacity-80">
-                        <div class="absolute top-4 left-4">
-                            <span class="px-2.5 py-1 bg-amber-600 text-white text-[10px] font-bold uppercase rounded-md shadow-md">ESPHome / DIY</span>
-                        </div>
+                    <div class="h-48 bg-slate-800 relative overflow-hidden group">
+                        <img src="https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Placa ESP32" class="w-full h-full object-cover opacity-70 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500">
+                        <div class="absolute top-4 left-4"><span class="px-2.5 py-1 bg-amber-600 text-white text-[10px] font-bold uppercase rounded-md shadow-md">Guia ESPHome</span></div>
                     </div>
                     <div class="p-6 flex flex-col flex-grow">
-                        <h3 class="font-heading text-xl font-bold text-slate-100 mb-3 hover:text-cyan-400 transition-colors"><a href="#">Medidor de Energia Caseiro com ESP32 e PZEM</a></h3>
-                        <p class="text-slate-400 text-sm mb-6 flex-grow">Monitore o consumo elétrico da sua casa em tempo real no Home Assistant sem pagar fortunas por medidores comerciais.</p>
-                        
-                        <div class="mb-6">
-                            <p class="text-xs font-mono text-slate-500 mb-2 uppercase">Hardware Recomendado:</p>
-                            <ul class="text-sm text-slate-300 space-y-1">
-                                <li class="flex items-center gap-2"><span class="text-amber-500">•</span> NodeMCU ESP32</li>
-                                <li class="flex items-center gap-2"><span class="text-amber-500">•</span> PZEM-004T v3.0</li>
-                            </ul>
-                        </div>
-                        
-                        <a href="#" class="mt-auto w-full py-2.5 px-4 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-center text-sm font-medium text-white rounded-xl transition-colors">Ver Tutorial & Esquema</a>
+                        <h3 class="font-heading text-xl font-bold text-slate-100 mb-3 hover:text-cyan-400 transition-colors"><a href="#">Medidor de Energia Local com ESP32 e PZEM</a></h3>
+                        <p class="text-slate-400 text-sm mb-6 flex-grow">Monitore o consumo elétrico da sua casa em tempo real no dashboard, sem depender de nuvens Tuya/Sonoff.</p>
+                        <a href="#" class="mt-auto w-full py-2.5 px-4 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-center text-sm font-medium text-white rounded-xl transition-colors">Ver Código e Esquema</a>
                     </div>
                 </article>
-
+                
                 <!-- Card 3 -->
-                <article class="card-hover bg-slate-900 rounded-2xl overflow-hidden border border-slate-800 flex flex-col h-full article-card" data-category="cameras">
-                    <div class="h-48 bg-slate-800 relative">
-                        <img src="https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Câmera de Segurança" class="w-full h-full object-cover opacity-80">
-                        <div class="absolute top-4 left-4">
-                            <span class="px-2.5 py-1 bg-emerald-600 text-white text-[10px] font-bold uppercase rounded-md shadow-md">Câmeras / Frigate</span>
-                        </div>
+                <article class="card-hover bg-slate-900 rounded-2xl overflow-hidden border border-slate-800 flex flex-col h-full article-card hidden lg:flex" data-category="cameras">
+                    <div class="h-48 bg-slate-800 relative overflow-hidden group">
+                        <img src="https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Câmera de Segurança" class="w-full h-full object-cover opacity-70 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500">
+                        <div class="absolute top-4 left-4"><span class="px-2.5 py-1 bg-emerald-600 text-white text-[10px] font-bold uppercase rounded-md shadow-md">IA Local</span></div>
                     </div>
                     <div class="p-6 flex flex-col flex-grow">
-                        <h3 class="font-heading text-xl font-bold text-slate-100 mb-3 hover:text-cyan-400 transition-colors"><a href="#">CFTV Inteligente: Frigate NVR + Google Coral</a></h3>
-                        <p class="text-slate-400 text-sm mb-6 flex-grow">Transforme câmeras baratas em um sistema de segurança de ponta com detecção de pessoas e carros via IA processada localmente.</p>
-                        
-                        <div class="mb-6">
-                            <p class="text-xs font-mono text-slate-500 mb-2 uppercase">Hardware Recomendado:</p>
-                            <ul class="text-sm text-slate-300 space-y-1">
-                                <li class="flex items-center gap-2"><span class="text-amber-500">•</span> Google Coral USB</li>
-                                <li class="flex items-center gap-2"><span class="text-amber-500">•</span> Câmeras Reolink / Tapo (RTSP)</li>
-                            </ul>
-                        </div>
-                        
-                        <a href="#" class="mt-auto w-full py-2.5 px-4 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-center text-sm font-medium text-white rounded-xl transition-colors">Ver Tutorial Completo</a>
+                        <h3 class="font-heading text-xl font-bold text-slate-100 mb-3 hover:text-cyan-400 transition-colors"><a href="#">Frigate NVR: CFTV Inteligente sem Assinaturas</a></h3>
+                        <p class="text-slate-400 text-sm mb-6 flex-grow">Use aceleradores TPU para detectar pessoas, carros e animais localmente usando câmeras baratas RTSP.</p>
+                        <a href="#" class="mt-auto w-full py-2.5 px-4 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-center text-sm font-medium text-white rounded-xl transition-colors">Configurar NVR</a>
                     </div>
                 </article>
-                
             </div>
         </section>
 
-        <!-- 6. Bloco Interativo: Calculadora -->
-        <section id="calculadora" class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-            <div class="bg-gradient-to-br from-slate-900 to-slate-800 border border-slate-700 rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden">
-                <!-- Decor grid -->
-                <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCI+PGNpcmNsZSBjeD0iMiIgY3k9IjIiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wNSkiLz48L3N2Zz4=')]"></div>
-                
-                <div class="relative z-10 text-center mb-10">
-                    <span class="inline-block p-3 bg-emerald-500/20 text-emerald-400 rounded-2xl mb-4 shadow-neon-emerald">
-                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                    </span>
-                    <h2 class="font-heading text-3xl font-bold text-white mb-2">Calculadora de Economia</h2>
-                    <p class="text-slate-400">Descubra quanto você economiza por ano eliminando mensalidades de nuvem para câmeras e hubs.</p>
-                </div>
-
-                <div class="relative z-10 bg-slate-950/50 rounded-2xl p-6 md:p-8 border border-slate-800">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                        
-                        <!-- Inputs -->
-                        <div class="space-y-6">
-                            <div>
-                                <label class="block text-sm font-medium text-slate-300 mb-2">Quantidade de Câmeras (Gravação em Nuvem)</label>
-                                <div class="flex items-center gap-4">
-                                    <input type="range" id="cam-slider" min="0" max="10" value="2" class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-cyan-500">
-                                    <span id="cam-val" class="text-xl font-mono font-bold text-cyan-400 w-8 text-center">2</span>
-                                </div>
-                                <p class="text-xs text-slate-500 mt-1">Estimativa: R$ 15/mês por câmera</p>
-                            </div>
-                            
-                            <div>
-                                <label class="block text-sm font-medium text-slate-300 mb-2">Hubs / Serviços Premium (ex: IFTTT, Alexa Pro)</label>
-                                <div class="flex items-center gap-4">
-                                    <input type="range" id="hub-slider" min="0" max="3" value="1" class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-cyan-500">
-                                    <span id="hub-val" class="text-xl font-mono font-bold text-cyan-400 w-8 text-center">1</span>
-                                </div>
-                                <p class="text-xs text-slate-500 mt-1">Estimativa: R$ 30/mês por serviço</p>
-                            </div>
-                        </div>
-
-                        <!-- Result -->
-                        <div class="bg-slate-900 border border-slate-700 rounded-xl p-6 text-center shadow-lg relative overflow-hidden">
-                            <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-emerald-400 to-cyan-500"></div>
-                            <p class="text-sm font-medium text-slate-400 mb-2">Economia Estimada</p>
-                            <div class="text-4xl md:text-5xl font-heading font-bold text-white mb-2" id="calc-result">
-                                R$ <span class="text-emerald-400">720</span>
-                            </div>
-                            <p class="text-sm text-slate-400">por ano com servidor local</p>
-                            
-                            <div class="mt-6 pt-6 border-t border-slate-800">
-                                <p class="text-xs text-slate-500 mb-3">O hardware local (Mini PC) se paga em aprox. <span id="roi-val" class="text-slate-300 font-bold">10</span> meses.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 7. Banner de Captura / Lead Magnet -->
+        <!-- Interactivity: Calculadora -->
         <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-            <div class="bg-slate-900 border border-slate-800 rounded-3xl p-1 relative overflow-hidden group">
-                <!-- Glowing border effect -->
-                <div class="absolute inset-0 bg-gradient-to-r from-cyan-500/30 to-emerald-500/30 opacity-50 group-hover:opacity-100 transition-opacity blur-xl"></div>
-                
-                <div class="relative bg-slate-950 rounded-[22px] p-8 md:p-12 flex flex-col md:flex-row items-center gap-8 justify-between z-10 border border-slate-800/50 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCI+PHBhdGggZD0iTTAgMGg0MHY0MEgweiIgZmlsbD0ibm9uZSIvPjxwYXRoIGQ9Ik0wIDEwaDQwTTEwIDB2NDAiIHN0cm9rZT0icmdiYSg1NiwxODksMjQ4LDAuMDUpIiBzdHJva2Utd2lkdGg9IjEiLz48L3N2Zz4=')]">
-                    
-                    <div class="max-w-xl">
-                        <div class="flex items-center gap-2 mb-4">
-                            <span class="px-2 py-1 bg-slate-800 text-slate-300 text-xs font-mono rounded">PDF.ZIP (12MB)</span>
-                            <span class="text-cyan-400 text-sm font-bold">Gratuito</span>
+            <div class="bg-gradient-to-br from-slate-900 to-slate-800 border border-slate-700 rounded-3xl p-8 shadow-2xl relative">
+                <div class="text-center mb-8">
+                    <h2 class="font-heading text-3xl font-bold text-white mb-2">Calculadora de ROI (Retorno sobre Investimento)</h2>
+                    <p class="text-slate-400 text-sm">Quantos reais você joga fora todo ano pagando nuvem de câmeras e hubs proprietários?</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center bg-slate-950/50 p-6 rounded-2xl border border-slate-800">
+                    <div class="space-y-6">
+                        <div>
+                            <label class="flex justify-between text-sm font-medium text-slate-300 mb-2">
+                                <span>Câmeras (Gravação em Nuvem)</span>
+                                <span class="font-mono text-cyan-400 font-bold"><span id="cam-val">2</span> un.</span>
+                            </label>
+                            <input type="range" id="cam-slider" min="0" max="10" value="2" class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-cyan-500">
                         </div>
-                        <h2 class="font-heading text-2xl md:text-3xl font-bold text-white mb-3">
-                            Baixe a Lista de Hardware & Scripts Prontos
-                        </h2>
-                        <p class="text-slate-400 text-sm md:text-base mb-6">
-                            Receba nosso blueprint técnico com links de peças no AliExpress, configurações YAML para Home Assistant e diagrama de rede seguro.
-                        </p>
+                        <div>
+                            <label class="flex justify-between text-sm font-medium text-slate-300 mb-2">
+                                <span>Hubs Premium / IFTTT / Cloud</span>
+                                <span class="font-mono text-cyan-400 font-bold"><span id="hub-val">1</span> serv.</span>
+                            </label>
+                            <input type="range" id="hub-slider" min="0" max="5" value="1" class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-cyan-500">
+                        </div>
                     </div>
-
-                    <div class="w-full md:w-auto flex-shrink-0 bg-slate-900 p-6 rounded-2xl border border-slate-800 w-full max-w-sm">
-                        <form class="space-y-4" onsubmit="event.preventDefault(); alert('E-mail cadastrado com sucesso! Em breve você receberá o material.');">
-                            <div>
-                                <input type="email" required placeholder="Seu melhor e-mail técnico" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all">
-                            </div>
-                            <button type="submit" class="w-full py-3 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold rounded-xl transition-all shadow-neon-emerald">
-                                Receber PDF Gratuito
-                            </button>
-                            <p class="text-[10px] text-slate-500 text-center font-mono mt-2">Zero spam. Cancele quando quiser.</p>
-                        </form>
+                    <div class="bg-slate-900 border border-slate-700 rounded-xl p-6 text-center shadow-lg relative overflow-hidden">
+                        <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-emerald-400 to-cyan-500"></div>
+                        <p class="text-sm text-slate-400 mb-1">Economia estimada com servidor local</p>
+                        <div class="text-5xl font-heading font-bold text-white mb-2" id="calc-result">
+                            R$ <span class="text-emerald-400">720</span>
+                        </div>
+                        <p class="text-xs text-slate-500 font-mono">/ ano retidos no seu bolso</p>
                     </div>
                 </div>
             </div>
         </section>
-
     </main>
 
-    <!-- 8. Footer -->
-    <footer class="bg-slate-950 border-t border-slate-900 pt-16 pb-8">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+
+    <!-- ============================================== -->
+    <!-- VIEW: ARTICLE (Leitura Completa do Post)       -->
+    <!-- ============================================== -->
+    <main id="article-view" class="hidden pb-20">
+        
+        <!-- Article Header -->
+        <header class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-8 text-center md:text-left">
+            <!-- Breadcrumbs -->
+            <nav class="flex text-slate-500 text-sm mb-6 font-medium justify-center md:justify-start">
+                <button onclick="showView('home-view')" class="hover:text-cyan-400 transition-colors">Início</button>
+                <span class="mx-2">/</span>
+                <span class="hover:text-cyan-400 transition-colors cursor-pointer">Tutoriais</span>
+                <span class="mx-2">/</span>
+                <span class="text-slate-300">Servidores</span>
+            </nav>
+            
+            <h1 class="font-heading text-4xl md:text-5xl lg:text-6xl font-bold text-slate-50 mb-6 leading-tight">
+                Guia Definitivo de Instalação do Home Assistant OS em Mini PC
+            </h1>
+            
+            <div class="flex flex-wrap items-center justify-center md:justify-start gap-4 text-sm text-slate-400">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center font-bold text-cyan-400">F</div>
+                    <span class="text-slate-300 font-medium">Francisco (Autor)</span>
+                </div>
+                <span class="hidden sm:inline">•</span>
+                <span>Atualizado em: 16 de Agosto, 2026</span>
+                <span class="hidden sm:inline">•</span>
+                <span class="flex items-center gap-1 text-emerald-400 bg-emerald-400/10 px-2 py-0.5 rounded border border-emerald-400/20">🟢 Testado e Aprovado</span>
+            </div>
+        </header>
+
+        <!-- Content Layout -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row gap-12 items-start relative">
+            
+            <!-- Aside Sidebar (TOC & Sticky Ads) -->
+            <aside class="hidden lg:block w-[300px] flex-shrink-0 sticky top-28 space-y-8">
+                <!-- TOC -->
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+                    <h4 class="font-heading font-bold text-slate-100 mb-4 uppercase text-xs tracking-widest text-slate-400">Índice do Artigo</h4>
+                    <ul class="space-y-3 text-sm font-medium text-slate-400">
+                        <li><a href="#req-hardware" class="hover:text-cyan-400 transition-colors block">1. Requisitos de Hardware</a></li>
+                        <li><a href="#prep-pendrive" class="hover:text-cyan-400 transition-colors block">2. Preparando o Pendrive Bootável</a></li>
+                        <li><a href="#bios" class="hover:text-cyan-400 transition-colors block">3. Configuração da BIOS (UEFI)</a></li>
+                        <li><a href="#install" class="hover:text-cyan-400 transition-colors block">4. Gravando o HAOS via BalenaEtcher</a></li>
+                        <li><a href="#first-boot" class="hover:text-cyan-400 transition-colors block">5. Primeiro Boot e Acesso Local</a></li>
+                    </ul>
+                </div>
                 
-                <div class="col-span-1 md:col-span-1">
+                <!-- AdSense Sidebar Placeholder -->
+                <div class="bg-slate-900 border border-slate-800 border-dashed rounded-lg flex flex-col items-center justify-center h-[250px] relative">
+                    <span class="absolute top-2 left-3 text-[10px] text-slate-500 uppercase font-medium">Publicidade</span>
+                    <p class="text-slate-600 text-xs font-mono text-center px-4">[ AdSense Sidebar<br>300x250 ]</p>
+                </div>
+            </aside>
+
+            <!-- Main Article Body -->
+            <article class="prose prose-invert prose-lg max-w-3xl w-full flex-grow pb-16">
+                
+                <p class="text-xl text-slate-300 font-medium leading-relaxed">
+                    Instalar o Home Assistant OS (HAOS) diretamente em um Mini PC x86 (Intel/AMD) é a maneira mais robusta, rápida e recomendada de construir a base da sua automação residencial. Esqueça os cartões MicroSD queimados em Raspberry Pi; vamos utilizar um SSD confiável.
+                </p>
+
+                <!-- In-Article AdSense Placeholder -->
+                <div class="my-10 w-full bg-slate-900 border border-slate-800 border-dashed rounded flex flex-col items-center justify-center min-h-[90px] relative">
+                    <span class="absolute top-1 left-2 text-[10px] text-slate-500 uppercase font-medium">Anúncio</span>
+                    <p class="text-slate-600 text-sm font-mono">[ AdSense In-Article Responsive ]</p>
+                </div>
+
+                <h2 id="req-hardware">1. Requisitos e Recomendações de Hardware</h2>
+                <p>Para este laboratório, você precisará de um Mini PC. Modelos como Dell Optiplex Micro, Lenovo Tiny ou HP ProDesk usados (geralmente com i3 ou i5 de 6ª a 8ª geração) são perfeitos, pois consomem pouca energia (idle de ~10W) e custam muito barato no mercado de usados.</p>
+                
+                <!-- Spec Table -->
+                <div class="overflow-x-auto my-8 border border-slate-800 rounded-xl bg-slate-900">
+                    <table class="w-full text-sm text-left text-slate-300">
+                        <thead class="text-xs text-slate-400 uppercase bg-slate-950/50 border-b border-slate-800">
+                            <tr>
+                                <th class="px-6 py-4 font-bold">Componente</th>
+                                <th class="px-6 py-4 font-bold">Recomendação Mínima</th>
+                                <th class="px-6 py-4 font-bold">Custo Estimado (Usado)</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-800/50">
+                            <tr class="hover:bg-slate-800/30 transition-colors">
+                                <td class="px-6 py-4 font-medium text-white">Mini PC (Processador)</td>
+                                <td class="px-6 py-4">Intel Celeron N5105 / Core i3 6ª Gen</td>
+                                <td class="px-6 py-4 text-emerald-400">R$ 400 - R$ 700</td>
+                            </tr>
+                            <tr class="hover:bg-slate-800/30 transition-colors">
+                                <td class="px-6 py-4 font-medium text-white">Memória RAM</td>
+                                <td class="px-6 py-4">8GB DDR4 (Suficiente para HA + Add-ons)</td>
+                                <td class="px-6 py-4 text-emerald-400">R$ 100</td>
+                            </tr>
+                            <tr class="hover:bg-slate-800/30 transition-colors">
+                                <td class="px-6 py-4 font-medium text-white">Armazenamento (Crucial!)</td>
+                                <td class="px-6 py-4">120GB SSD SATA ou NVMe</td>
+                                <td class="px-6 py-4 text-emerald-400">R$ 80</td>
+                            </tr>
+                            <tr class="hover:bg-slate-800/30 transition-colors">
+                                <td class="px-6 py-4 font-medium text-white">Coordenador Zigbee</td>
+                                <td class="px-6 py-4">Sonoff Dongle-P (Com chip CC2652P)</td>
+                                <td class="px-6 py-4 text-emerald-400">R$ 150 (AliExpress)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="bg-amber-500/10 border-l-4 border-amber-500 p-5 rounded-r-lg my-8 flex items-start gap-4">
+                    <svg class="w-6 h-6 text-amber-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                    <div>
+                        <h4 class="text-amber-500 font-bold text-base m-0 mb-1 font-heading">Laboratório Prático: Aviso de Disco</h4>
+                        <p class="text-amber-200/80 text-sm m-0">A instalação do HAOS formatará o disco inteiro do Mini PC. Certifique-se de fazer backup de qualquer dado caso o equipamento não seja dedicado apenas a isso. O Windows será completamente apagado.</p>
+                    </div>
+                </div>
+
+                <h2 id="install">4. Gravando a Imagem via Terminal (Usuários Avançados Linux)</h2>
+                <p>Se você já rodou um Ubuntu Live USB no Mini PC, pode gravar a imagem do HAOS diretamente no SSD NVMe/SATA interno usando a ferramenta <code>dd</code> ou <code>wget</code> via terminal. Veja o comando direto (substitua <code>/dev/nvme0n1</code> pelo seu disco local):</p>
+
+                <!-- Code Block with Copy Button -->
+                <div class="relative group my-6">
+                    <div class="absolute flex items-center justify-between top-0 inset-x-0 px-4 py-2 bg-slate-800 border-b border-slate-700 rounded-t-xl">
+                        <span class="text-xs font-mono text-slate-400">bash / terminal</span>
+                        <button onclick="copyCode(this)" class="flex items-center gap-1.5 text-xs font-bold text-slate-400 hover:text-cyan-400 transition-colors bg-slate-700/50 hover:bg-slate-700 px-2 py-1 rounded">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                            <span>Copiar</span>
+                        </button>
+                    </div>
+                    <pre class="bg-[#0f1422] rounded-xl pt-12 pb-4 px-4 overflow-x-auto border border-slate-800"><code class="font-mono text-sm text-cyan-300">xzcat haos_generic-x86-64-13.1.img.xz | sudo dd of=/dev/nvme0n1 bs=4M status=progress</code></pre>
+                </div>
+
+                <h2 id="first-boot">5. Primeiro Acesso Local (A Mágica Acontece)</h2>
+                <p>Após a gravação, reinicie o Mini PC, remova o pendrive e deixe-o iniciar pelo SSD. Conecte o cabo de rede Ethernet. Em 2 a 5 minutos, o sistema estará pronto na sua rede local.</p>
+                <p>Vá para o seu notebook (conectado no mesmo Wi-Fi) e digite no navegador:</p>
+                
+                <div class="relative group my-6">
+                    <div class="absolute flex items-center justify-between top-0 inset-x-0 px-4 py-2 bg-slate-800 border-b border-slate-700 rounded-t-xl">
+                        <span class="text-xs font-mono text-slate-400">browser</span>
+                        <button onclick="copyCode(this)" class="flex items-center gap-1.5 text-xs font-bold text-slate-400 hover:text-cyan-400 transition-colors bg-slate-700/50 hover:bg-slate-700 px-2 py-1 rounded">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                            <span>Copiar</span>
+                        </button>
+                    </div>
+                    <pre class="bg-[#0f1422] rounded-xl pt-12 pb-4 px-4 overflow-x-auto border border-slate-800"><code class="font-mono text-sm text-emerald-300">http://homeassistant.local:8123</code></pre>
+                </div>
+
+                <p>Crie seu usuário de administrador. Parabéns! Sua casa parou de depender de servidores na China ou nos EUA. Tudo agora é processado a centímetros de você.</p>
+                
+                <hr class="border-slate-800 my-12">
+                
+                <!-- Bottom In-Article AdSense -->
+                <div class="w-full bg-slate-900 border border-slate-800 border-dashed rounded flex flex-col items-center justify-center min-h-[90px] relative mb-12">
+                    <span class="absolute top-1 left-2 text-[10px] text-slate-500 uppercase font-medium">Anúncio</span>
+                    <p class="text-slate-600 text-sm font-mono">[ AdSense Bottom Article ]</p>
+                </div>
+
+                <!-- Author Bio block for E-E-A-T compliance -->
+                <div class="bg-slate-900/50 p-6 rounded-2xl border border-slate-800 flex flex-col md:flex-row gap-6 items-center md:items-start text-left">
+                    <div class="w-20 h-20 rounded-full bg-slate-800 border-2 border-slate-700 flex-shrink-0 overflow-hidden">
+                        <img src="https://ui-avatars.com/api/?name=F+DGA&background=1E293B&color=38BDF8&size=128" alt="Autor" class="w-full h-full object-cover">
+                    </div>
+                    <div>
+                        <h4 class="font-heading font-bold text-white mb-2">Escrito por Francisco DGA</h4>
+                        <p class="text-sm text-slate-400 mb-3">Engenheiro de Software e entusiasta de sistemas distribuídos locais. Criador do laboratório "Sua Casa Autônoma". Testo hardwares incansavelmente para garantir que sua privacidade seja o produto final, não seus dados.</p>
+                        <a href="#" onclick="openModal('modal-sobre')" class="text-cyan-400 text-sm font-bold hover:underline">Saber mais sobre o autor &rarr;</a>
+                    </div>
+                </div>
+
+            </article>
+        </div>
+    </main>
+
+
+    <!-- ============================================== -->
+    <!-- FOOTER INSTITUCIONAL                           -->
+    <!-- ============================================== -->
+    <footer class="bg-slate-950 border-t border-slate-900 pt-16 pb-8 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+                <div class="lg:col-span-1">
                     <div class="flex items-center gap-2 mb-6">
                         <div class="w-8 h-8 rounded-lg bg-cyan-500 flex items-center justify-center">
                             <svg class="w-5 h-5 text-slate-950" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
                         </div>
                         <span class="font-heading font-bold text-lg text-white">Sua Casa Autônoma</span>
                     </div>
-                    <p class="text-sm text-slate-400 mb-6">
-                        Descomplicando a automação residencial de código aberto. Sem nuvem, sem mensalidade, focado em privacidade e controle real.
-                    </p>
+                    <p class="text-sm text-slate-400">Automação de código aberto, 100% local. Focado em privacidade e controle real da sua casa.</p>
                 </div>
-
+                
                 <div>
-                    <h4 class="font-heading font-bold text-white mb-4">Hardware</h4>
+                    <h4 class="font-heading font-bold text-white mb-4">Guias Principais</h4>
                     <ul class="space-y-2 text-sm text-slate-400">
-                        <li><a href="#" class="hover:text-cyan-400 transition-colors">Mini PCs para HA</a></li>
-                        <li><a href="#" class="hover:text-cyan-400 transition-colors">Sensores Zigbee</a></li>
-                        <li><a href="#" class="hover:text-cyan-400 transition-colors">Relés Inteligentes</a></li>
-                        <li><a href="#" class="hover:text-cyan-400 transition-colors">Câmeras IP / NVR</a></li>
+                        <li><button onclick="showView('article-view')" class="hover:text-cyan-400 transition-colors">Servidor HAOS Local</button></li>
+                        <li><a href="#" class="hover:text-cyan-400 transition-colors">Rede Zigbee Sólida</a></li>
+                        <li><a href="#" class="hover:text-cyan-400 transition-colors">Câmeras e NVR</a></li>
                     </ul>
                 </div>
-
+                
                 <div>
-                    <h4 class="font-heading font-bold text-white mb-4">Software</h4>
+                    <h4 class="font-heading font-bold text-white mb-4">Institucional</h4>
                     <ul class="space-y-2 text-sm text-slate-400">
-                        <li><a href="#" class="hover:text-cyan-400 transition-colors">Home Assistant</a></li>
-                        <li><a href="#" class="hover:text-cyan-400 transition-colors">ESPHome</a></li>
-                        <li><a href="#" class="hover:text-cyan-400 transition-colors">Zigbee2MQTT</a></li>
-                        <li><a href="#" class="hover:text-cyan-400 transition-colors">Frigate (IA)</a></li>
+                        <li><button onclick="openModal('modal-sobre')" class="hover:text-cyan-400 transition-colors">Sobre o Projeto</button></li>
+                        <li><button onclick="openModal('modal-contato')" class="hover:text-cyan-400 transition-colors">Contato</button></li>
+                        <li><button onclick="openModal('modal-privacidade')" class="hover:text-cyan-400 transition-colors">Política de Privacidade</button></li>
+                        <li><button onclick="openModal('modal-termos')" class="hover:text-cyan-400 transition-colors">Termos de Uso & Afiliados</button></li>
                     </ul>
                 </div>
-
+                
                 <div>
-                    <h4 class="font-heading font-bold text-white mb-4">Comunidade</h4>
-                    <ul class="space-y-2 text-sm text-slate-400">
-                        <li><a href="#" class="hover:text-cyan-400 transition-colors">Fórum Oficial HA</a></li>
-                        <li><a href="#" class="hover:text-cyan-400 transition-colors">GitHub dos Projetos</a></li>
-                        <li><a href="#" class="hover:text-cyan-400 transition-colors">Grupo no Telegram</a></li>
-                        <li><a href="#" class="hover:text-cyan-400 transition-colors">Apoie o Projeto</a></li>
-                    </ul>
+                    <h4 class="font-heading font-bold text-white mb-4">Apoie o Canal</h4>
+                    <p class="text-sm text-slate-400 mb-4">O laboratório sobrevive por indicações de hardware testado.</p>
+                    <a href="https://github.com/FranciscoDGA" target="_blank" class="inline-flex items-center gap-2 text-sm font-bold text-slate-300 hover:text-white transition-colors bg-slate-800 px-4 py-2 rounded-lg">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd"></path></svg>
+                        Siga no GitHub
+                    </a>
                 </div>
-
             </div>
-
             <div class="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-                <p class="text-xs text-slate-500 font-mono text-center md:text-left max-w-2xl">
-                    Transparência: Alguns links neste site são de afiliados. Recomendamos apenas equipamentos exaustivamente testados por nossa equipe e que funcionam 100% localmente, sem dependência de nuvem.
+                <p class="text-xs text-slate-500 font-mono text-center md:text-left">
+                    <strong>Aviso de Divulgação:</strong> Participamos do Programa de Associados Amazon e AliExpress. Compras via links podem render comissões que financiam o site, sem custo extra para você. O Google AdSense também veicula anúncios dinâmicos no portal.
                 </p>
                 <p class="text-xs text-slate-500 whitespace-nowrap">
                     &copy; 2026 Sua Casa Autônoma.
@@ -489,89 +528,209 @@
         </div>
     </footer>
 
-    <!-- 9. Javascript Vanilla -->
+
+    <!-- ============================================== -->
+    <!-- MODALS (Institucionais)                        -->
+    <!-- ============================================== -->
+    <div id="modal-overlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4 transition-opacity modal-exit">
+        
+        <!-- Base Modal Container -->
+        <div id="modal-content-container" class="bg-slate-900 border border-slate-700 rounded-2xl max-w-2xl w-full max-h-[85vh] overflow-y-auto shadow-2xl relative">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white bg-slate-800 rounded-lg p-2 focus:outline-none">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            
+            <div class="p-8">
+                <!-- Content injected via JS -->
+                <div id="modal-body" class="prose prose-invert prose-sm"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden Template Content for Modals -->
+    <template id="tpl-sobre">
+        <h2 class="text-2xl mb-4 font-heading text-white">Sobre o Projeto & Autor</h2>
+        <p>O portal <strong>Sua Casa Autônoma</strong> foi idealizado e mantido por Francisco DGA. Nasceu da frustração técnica com dispositivos proprietários que dependiam de servidores externos para realizar tarefas básicas na própria residência (como ligar uma lâmpada).</p>
+        <p>Nosso objetivo (E-E-A-T): Construir o melhor repositório de tutoriais, testes de hardware e scripts para Home Assistant em português, provando que é possível ter alta tecnologia com privacidade total (sem tráfego de dados para nuvens públicas) operando em rede local (LAN).</p>
+    </template>
+    
+    <template id="tpl-privacidade">
+        <h2 class="text-2xl mb-4 font-heading text-white">Política de Privacidade & Cookies</h2>
+        <p>Nosso compromisso é com a sua privacidade, algo que defendemos nos tutoriais.</p>
+        <h3>1. Cookies e Google AdSense</h3>
+        <p>Este site utiliza o Google AdSense para exibir anúncios. O Google usa cookies para veicular anúncios com base nas suas visitas anteriores a este ou a outros sites. O uso de cookies de publicidade permite que o Google e seus parceiros sirvam anúncios direcionados.</p>
+        <h3>2. Analytics Básico</h3>
+        <p>Usamos rastreamento de métricas básico anonimizado apenas para entender as páginas mais lidas e criar conteúdo melhor. Não coletamos dados pessoais nominais, a menos que você forneça voluntariamente via e-mail.</p>
+    </template>
+    
+    <template id="tpl-termos">
+        <h2 class="text-2xl mb-4 font-heading text-white">Termos de Uso e Divulgação de Afiliados</h2>
+        <p><strong>Isenção de Responsabilidade Técnica:</strong> Automação residencial muitas vezes lida com energia elétrica. O conteúdo deste site é educacional. Não nos responsabilizamos por danos em hardware (choques ou curtos) decorrentes de má execução de tutoriais de projetos elétricos (DIY). Chame um eletricista qualificado para instalação de relés em quadros e interruptores de parede.</p>
+        <h3>Programa de Afiliados</h3>
+        <p>Para manter os custos do servidor do site e adquirir novos hardwares para review, utilizamos links de afiliados do AliExpress e da Amazon Brasil. Se você clicar e comprar uma placa, sensor ou Mini PC, receberemos uma pequena comissão sem alterar o preço pago por você.</p>
+    </template>
+
+    <template id="tpl-contato">
+        <h2 class="text-2xl mb-4 font-heading text-white">Entre em Contato</h2>
+        <p class="text-slate-400 mb-6">Dúvidas sobre o projeto, propostas de parcerias para review de hardware (seja local/compatível com Z2M) ou suporte, envie uma mensagem.</p>
+        <form class="space-y-4" onsubmit="event.preventDefault(); alert('Mensagem enviada com sucesso!'); closeModal();">
+            <div>
+                <label class="block text-sm font-medium text-slate-300 mb-1">Nome</label>
+                <input type="text" required class="w-full bg-slate-950 border border-slate-700 rounded-lg px-4 py-2.5 text-sm text-slate-100 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-slate-300 mb-1">E-mail</label>
+                <input type="email" required class="w-full bg-slate-950 border border-slate-700 rounded-lg px-4 py-2.5 text-sm text-slate-100 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-slate-300 mb-1">Mensagem</label>
+                <textarea required rows="4" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-4 py-2.5 text-sm text-slate-100 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none"></textarea>
+            </div>
+            <button type="submit" class="px-6 py-2.5 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold rounded-lg transition-colors">Enviar Mensagem</button>
+        </form>
+    </template>
+
+
+    <!-- ============================================== -->
+    <!-- JAVASCRIPT VANILLA INTERATIVO                  -->
+    <!-- ============================================== -->
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            
-            // --- Menu Mobile Toggle ---
-            const btn = document.getElementById('mobile-menu-btn');
-            const menu = document.getElementById('mobile-menu');
-            const menuIcon = document.getElementById('menu-icon');
-            const closeIcon = document.getElementById('close-icon');
-
-            btn.addEventListener('click', () => {
-                menu.classList.toggle('hidden');
-                menuIcon.classList.toggle('hidden');
-                closeIcon.classList.toggle('hidden');
-            });
-
-            // --- Calculadora de Economia Interativa ---
-            const camSlider = document.getElementById('cam-slider');
-            const hubSlider = document.getElementById('hub-slider');
-            const camVal = document.getElementById('cam-val');
-            const hubVal = document.getElementById('hub-val');
-            const resultEl = document.getElementById('calc-result');
-            const roiVal = document.getElementById('roi-val');
-            
-            const costPerCam = 15; // R$/mês
-            const costPerHub = 30; // R$/mês
-            const miniPcCost = 600; // Custo médio Mini PC
-
-            function calculateSavings() {
-                const cams = parseInt(camSlider.value);
-                const hubs = parseInt(hubSlider.value);
-                
-                camVal.textContent = cams;
-                hubVal.textContent = hubs;
-                
-                const monthlySavings = (cams * costPerCam) + (hubs * costPerHub);
-                const yearlySavings = monthlySavings * 12;
-                
-                // Animação de número (simples)
-                resultEl.innerHTML = `R$ <span class="text-emerald-400">${yearlySavings}</span>`;
-                
-                if(monthlySavings > 0) {
-                    const roi = Math.ceil(miniPcCost / monthlySavings);
-                    roiVal.textContent = roi;
-                    roiVal.parentElement.style.display = 'block';
-                } else {
-                    roiVal.parentElement.style.display = 'none';
-                }
+        // -- 1. SPA View Toggler (Home <-> Article) --
+        function showView(viewId) {
+            window.scrollTo(0, 0);
+            if (viewId === 'home-view') {
+                document.getElementById('home-view').classList.remove('hidden');
+                document.getElementById('home-view').classList.add('block');
+                document.getElementById('article-view').classList.add('hidden');
+                document.getElementById('article-view').classList.remove('block');
+            } else {
+                document.getElementById('article-view').classList.remove('hidden');
+                document.getElementById('article-view').classList.add('block');
+                document.getElementById('home-view').classList.add('hidden');
+                document.getElementById('home-view').classList.remove('block');
             }
+        }
 
-            camSlider.addEventListener('input', calculateSavings);
-            hubSlider.addEventListener('input', calculateSavings);
-            calculateSavings(); // Init
+        // -- 2. Copiar Código Terminal --
+        function copyCode(btn) {
+            const pre = btn.parentElement.nextElementSibling;
+            const code = pre.textContent || pre.innerText;
+            
+            navigator.clipboard.writeText(code).then(() => {
+                const originalHtml = btn.innerHTML;
+                // Feedback
+                btn.innerHTML = `<svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> <span class="text-emerald-400">Copiado!</span>`;
+                setTimeout(() => { btn.innerHTML = originalHtml; }, 2000);
+            }).catch(err => {
+                console.error('Falha ao copiar', err);
+            });
+        }
 
-            // --- Filtro de Artigos ---
-            const filterBtns = document.querySelectorAll('.filter-btn');
-            const articles = document.querySelectorAll('.article-card');
+        // -- 3. Modal Logic --
+        const modalOverlay = document.getElementById('modal-overlay');
+        const modalBody = document.getElementById('modal-body');
 
-            filterBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    // Reset active state
-                    filterBtns.forEach(b => {
-                        b.classList.remove('bg-slate-800', 'text-white', 'active');
-                        b.classList.add('bg-slate-900', 'text-slate-400');
-                    });
-                    
-                    // Set active state on clicked
-                    btn.classList.add('bg-slate-800', 'text-white', 'active');
-                    btn.classList.remove('bg-slate-900', 'text-slate-400');
-                    
-                    const filter = btn.getAttribute('data-filter');
-                    
-                    articles.forEach(article => {
-                        if(filter === 'all' || article.getAttribute('data-category') === filter) {
-                            article.style.display = 'flex';
-                        } else {
-                            article.style.display = 'none';
-                        }
-                    });
+        function openModal(templateId) {
+            const template = document.getElementById('tpl-' + templateId.replace('modal-', ''));
+            if(template) {
+                modalBody.innerHTML = template.innerHTML;
+            }
+            
+            modalOverlay.classList.remove('hidden');
+            modalOverlay.style.display = 'flex';
+            // Trigger reflow for animation
+            void modalOverlay.offsetWidth;
+            modalOverlay.classList.remove('modal-exit');
+            modalOverlay.classList.add('modal-enter-active');
+            
+            document.body.style.overflow = 'hidden'; // prevent bg scroll
+        }
+
+        function closeModal() {
+            modalOverlay.classList.remove('modal-enter-active');
+            modalOverlay.classList.add('modal-exit-active');
+            
+            setTimeout(() => {
+                modalOverlay.style.display = 'none';
+                modalOverlay.classList.remove('modal-exit-active');
+                modalOverlay.classList.add('modal-exit');
+                document.body.style.overflow = 'auto';
+            }, 200);
+        }
+
+        // Close on background click
+        modalOverlay.addEventListener('click', (e) => {
+            if(e.target === modalOverlay) closeModal();
+        });
+
+
+        // -- 4. Menu Mobile Toggle --
+        const btnMenu = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+        const menuIcon = document.getElementById('menu-icon');
+        const closeIcon = document.getElementById('close-icon');
+
+        btnMenu.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+            menuIcon.classList.toggle('hidden');
+            closeIcon.classList.toggle('hidden');
+        });
+
+
+        // -- 5. Calculadora de Economia --
+        const camSlider = document.getElementById('cam-slider');
+        const hubSlider = document.getElementById('hub-slider');
+        const camVal = document.getElementById('cam-val');
+        const hubVal = document.getElementById('hub-val');
+        const resultEl = document.getElementById('calc-result');
+        
+        const costPerCam = 15; // R$/mês
+        const costPerHub = 30; // R$/mês
+
+        function calcROI() {
+            if(!camSlider) return;
+            const cams = parseInt(camSlider.value);
+            const hubs = parseInt(hubSlider.value);
+            
+            camVal.textContent = cams;
+            hubVal.textContent = hubs;
+            
+            const yearlySavings = ((cams * costPerCam) + (hubs * costPerHub)) * 12;
+            resultEl.innerHTML = `R$ <span class="text-emerald-400">${yearlySavings}</span>`;
+        }
+
+        if(camSlider && hubSlider) {
+            camSlider.addEventListener('input', calcROI);
+            hubSlider.addEventListener('input', calcROI);
+            calcROI();
+        }
+
+        // -- 6. Filtro de Artigos --
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const articles = document.querySelectorAll('.article-card');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => {
+                    b.classList.remove('bg-slate-800', 'text-white', 'active');
+                    b.classList.add('bg-slate-900', 'text-slate-400');
+                });
+                
+                btn.classList.add('bg-slate-800', 'text-white', 'active');
+                btn.classList.remove('bg-slate-900', 'text-slate-400');
+                
+                const filter = btn.getAttribute('data-filter');
+                
+                articles.forEach(article => {
+                    if(filter === 'all' || article.getAttribute('data-category') === filter) {
+                        article.style.display = 'flex';
+                    } else {
+                        article.style.display = 'none';
+                    }
                 });
             });
-
         });
+
     </script>
 </body>
 </html>
