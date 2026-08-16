@@ -94,7 +94,7 @@
                     <div>
                         <h1 class="font-heading font-bold text-xl leading-tight">Sua Casa<br><span class="text-cyan-400">Autônoma</span></h1>
                     </div>
-                    <span class="hidden lg:inline-block ml-2 px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-emerald-400 bg-emerald-400/10 border border-emerald-400/20 rounded-full">100% Local</span>
+                    
                 </a>
 
                 <!-- Desktop Nav -->
@@ -464,7 +464,7 @@
                     <div>
                         <h4 class="font-heading font-bold text-white mb-2">Escrito por Francisco DGA</h4>
                         <p class="text-sm text-slate-400 mb-3">Engenheiro de Software e entusiasta de sistemas distribuídos locais. Criador do laboratório "Sua Casa Autônoma". Testo hardwares incansavelmente para garantir que sua privacidade seja o produto final, não seus dados.</p>
-                        <a href="#" onclick="openModal('modal-sobre')" class="text-cyan-400 text-sm font-bold hover:underline">Saber mais sobre o autor &rarr;</a>
+                        <a href="sobre.html" class="text-cyan-400 text-sm font-bold hover:underline">Saber mais sobre o autor &rarr;</a>
                     </div>
                 </div>
 
@@ -501,10 +501,10 @@
                 <div>
                     <h4 class="font-heading font-bold text-white mb-4">Institucional</h4>
                     <ul class="space-y-2 text-sm text-slate-400">
-                        <li><button onclick="openModal('modal-sobre')" class="hover:text-cyan-400 transition-colors">Sobre o Projeto</button></li>
-                        <li><button onclick="openModal('modal-contato')" class="hover:text-cyan-400 transition-colors">Contato</button></li>
-                        <li><button onclick="openModal('modal-privacidade')" class="hover:text-cyan-400 transition-colors">Política de Privacidade</button></li>
-                        <li><button onclick="openModal('modal-termos')" class="hover:text-cyan-400 transition-colors">Termos de Uso & Afiliados</button></li>
+                        <li><a href="sobre.html" class="hover:text-cyan-400 transition-colors">Sobre o Projeto</a></li>
+                        <li><a href="contato.html" class="hover:text-cyan-400 transition-colors">Contato</a></li>
+                        <li><a href="privacidade.html" class="hover:text-cyan-400 transition-colors">Política de Privacidade & LGPD</a></li>
+                        <li><a href="termos.html" class="hover:text-cyan-400 transition-colors">Termos de Uso, Cookies & Afiliados</a></li>
                     </ul>
                 </div>
                 
@@ -529,66 +529,13 @@
     </footer>
 
 
-    <!-- ============================================== -->
-    <!-- MODALS (Institucionais)                        -->
-    <!-- ============================================== -->
-    <div id="modal-overlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4 transition-opacity modal-exit">
-        
-        <!-- Base Modal Container -->
-        <div id="modal-content-container" class="bg-slate-900 border border-slate-700 rounded-2xl max-w-2xl w-full max-h-[85vh] overflow-y-auto shadow-2xl relative">
-            <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white bg-slate-800 rounded-lg p-2 focus:outline-none">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-            </button>
-            
-            <div class="p-8">
-                <!-- Content injected via JS -->
-                <div id="modal-body" class="prose prose-invert prose-sm"></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Hidden Template Content for Modals -->
-    <template id="tpl-sobre">
-        <h2 class="text-2xl mb-4 font-heading text-white">Sobre o Projeto & Autor</h2>
-        <p>O portal <strong>Sua Casa Autônoma</strong> foi idealizado e mantido por Francisco DGA. Nasceu da frustração técnica com dispositivos proprietários que dependiam de servidores externos para realizar tarefas básicas na própria residência (como ligar uma lâmpada).</p>
-        <p>Nosso objetivo (E-E-A-T): Construir o melhor repositório de tutoriais, testes de hardware e scripts para Home Assistant em português, provando que é possível ter alta tecnologia com privacidade total (sem tráfego de dados para nuvens públicas) operando em rede local (LAN).</p>
-    </template>
     
-    <template id="tpl-privacidade">
-        <h2 class="text-2xl mb-4 font-heading text-white">Política de Privacidade & Cookies</h2>
-        <p>Nosso compromisso é com a sua privacidade, algo que defendemos nos tutoriais.</p>
-        <h3>1. Cookies e Google AdSense</h3>
-        <p>Este site utiliza o Google AdSense para exibir anúncios. O Google usa cookies para veicular anúncios com base nas suas visitas anteriores a este ou a outros sites. O uso de cookies de publicidade permite que o Google e seus parceiros sirvam anúncios direcionados.</p>
-        <h3>2. Analytics Básico</h3>
-        <p>Usamos rastreamento de métricas básico anonimizado apenas para entender as páginas mais lidas e criar conteúdo melhor. Não coletamos dados pessoais nominais, a menos que você forneça voluntariamente via e-mail.</p>
-    </template>
     
-    <template id="tpl-termos">
-        <h2 class="text-2xl mb-4 font-heading text-white">Termos de Uso e Divulgação de Afiliados</h2>
-        <p><strong>Isenção de Responsabilidade Técnica:</strong> Automação residencial muitas vezes lida com energia elétrica. O conteúdo deste site é educacional. Não nos responsabilizamos por danos em hardware (choques ou curtos) decorrentes de má execução de tutoriais de projetos elétricos (DIY). Chame um eletricista qualificado para instalação de relés em quadros e interruptores de parede.</p>
-        <h3>Programa de Afiliados</h3>
-        <p>Para manter os custos do servidor do site e adquirir novos hardwares para review, utilizamos links de afiliados do AliExpress e da Amazon Brasil. Se você clicar e comprar uma placa, sensor ou Mini PC, receberemos uma pequena comissão sem alterar o preço pago por você.</p>
-    </template>
+    
+    
+    
 
-    <template id="tpl-contato">
-        <h2 class="text-2xl mb-4 font-heading text-white">Entre em Contato</h2>
-        <p class="text-slate-400 mb-6">Dúvidas sobre o projeto, propostas de parcerias para review de hardware (seja local/compatível com Z2M) ou suporte, envie uma mensagem.</p>
-        <form class="space-y-4" onsubmit="event.preventDefault(); alert('Mensagem enviada com sucesso!'); closeModal();">
-            <div>
-                <label class="block text-sm font-medium text-slate-300 mb-1">Nome</label>
-                <input type="text" required class="w-full bg-slate-950 border border-slate-700 rounded-lg px-4 py-2.5 text-sm text-slate-100 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none">
-            </div>
-            <div>
-                <label class="block text-sm font-medium text-slate-300 mb-1">E-mail</label>
-                <input type="email" required class="w-full bg-slate-950 border border-slate-700 rounded-lg px-4 py-2.5 text-sm text-slate-100 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none">
-            </div>
-            <div>
-                <label class="block text-sm font-medium text-slate-300 mb-1">Mensagem</label>
-                <textarea required rows="4" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-4 py-2.5 text-sm text-slate-100 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none"></textarea>
-            </div>
-            <button type="submit" class="px-6 py-2.5 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold rounded-lg transition-colors">Enviar Mensagem</button>
-        </form>
-    </template>
+    
 
 
     <!-- ============================================== -->
@@ -625,44 +572,6 @@
                 console.error('Falha ao copiar', err);
             });
         }
-
-        // -- 3. Modal Logic --
-        const modalOverlay = document.getElementById('modal-overlay');
-        const modalBody = document.getElementById('modal-body');
-
-        function openModal(templateId) {
-            const template = document.getElementById('tpl-' + templateId.replace('modal-', ''));
-            if(template) {
-                modalBody.innerHTML = template.innerHTML;
-            }
-            
-            modalOverlay.classList.remove('hidden');
-            modalOverlay.style.display = 'flex';
-            // Trigger reflow for animation
-            void modalOverlay.offsetWidth;
-            modalOverlay.classList.remove('modal-exit');
-            modalOverlay.classList.add('modal-enter-active');
-            
-            document.body.style.overflow = 'hidden'; // prevent bg scroll
-        }
-
-        function closeModal() {
-            modalOverlay.classList.remove('modal-enter-active');
-            modalOverlay.classList.add('modal-exit-active');
-            
-            setTimeout(() => {
-                modalOverlay.style.display = 'none';
-                modalOverlay.classList.remove('modal-exit-active');
-                modalOverlay.classList.add('modal-exit');
-                document.body.style.overflow = 'auto';
-            }, 200);
-        }
-
-        // Close on background click
-        modalOverlay.addEventListener('click', (e) => {
-            if(e.target === modalOverlay) closeModal();
-        });
-
 
         // -- 4. Menu Mobile Toggle --
         const btnMenu = document.getElementById('mobile-menu-btn');
