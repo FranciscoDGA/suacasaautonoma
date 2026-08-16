@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sua Casa Autônoma - Smart Home Local, Privada e Sem Mensalidades</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        slate: {
+                            50: '#F8FAFC',
+                            100: '#F1F5F9',
+                            400: '#94A3B8',
+                            800: '#1E293B',
+                            900: '#131B2E',
+                            950: '#0B0F19',
+                        },
+                        cyan: {
+                            400: '#38BDF8',
+                            500: '#06B6D4',
+                        },
+                        emerald: {
+                            500: '#10B981',
+                        },
+                        amber: {
+                            500: '#F59E0B',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Space Grotesk', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    boxShadow: {
+                        'neon-cyan': '0 0 15px rgba(6, 182, 212, 0.3)',
+                        'neon-emerald': '0 0 15px rgba(16, 185, 129, 0.3)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #0B0F19; color: #F1F5F9; }
+        h1, h2, h3, h4, h5, h6 { font-family: 'Space Grotesk', sans-serif; }
+        .glass-header { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); background-color: rgba(11, 15, 25, 0.85); }
+        .text-gradient { background: linear-gradient(to right, #38BDF8, #06B6D4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .card-hover { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+        .card-hover:hover { transform: translateY(-3px); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 0 15px rgba(6, 182, 212, 0.1); border-color: rgba(6, 182, 212, 0.3); }
+        
+        /* Hide scrollbar for clean look */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0B0F19; }
+        ::-webkit-scrollbar-thumb { background: #1E293B; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #38BDF8; }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 antialiased selection:bg-cyan-500/30">
+
+    <!-- 1. Header Fixo / Barra de Navegação -->
+    <header class="fixed top-0 w-full z-50 glass-header border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center shadow-neon-cyan">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                    </div>
+                    <div>
+                        <h1 class="font-heading font-bold text-xl leading-tight">Sua Casa<br><span class="text-cyan-400">Autônoma</span></h1>
+                    </div>
+                    <span class="hidden lg:inline-block ml-2 px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-emerald-400 bg-emerald-400/10 border border-emerald-400/20 rounded-full">100% Local</span>
+                </div>
+
+                <!-- Desktop Nav -->
+                <nav class="hidden md:flex space-x-6 lg:space-x-8 items-center">
+                    <a href="#" class="text-sm font-medium text-slate-400 hover:text-cyan-400 transition-colors">Comece Aqui</a>
+                    <a href="#" class="text-sm font-medium text-slate-400 hover:text-cyan-400 transition-colors">Home Assistant</a>
+                    <a href="#" class="text-sm font-medium text-slate-400 hover:text-cyan-400 transition-colors">Hardware</a>
+                    <a href="#" class="text-sm font-medium text-slate-400 hover:text-cyan-400 transition-colors">Projetos DIY</a>
+                </nav>
+
+                <!-- Search & CTA -->
+                <div class="hidden md:flex items-center gap-4">
+                    <div class="relative group">
+                        <input type="text" placeholder="Buscar dispositivos..." class="w-48 lg:w-64 bg-slate-900 border border-slate-800 text-sm rounded-full pl-10 pr-4 py-2 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all text-slate-100 placeholder-slate-400">
+                        <svg class="w-4 h-4 text-slate-400 absolute left-3.5 top-2.5 group-focus-within:text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    </div>
+                    <a href="#guia" class="px-5 py-2.5 bg-cyan-500 hover:bg-cyan-400 text-slate-950 text-sm font-bold rounded-full transition-all shadow-neon-cyan transform hover:scale-105">Guia do Servidor</a>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-slate-400 hover:text-white p-2 focus:outline-none">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path id="menu-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                            <path id="close-icon" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Panel -->
+        <div id="mobile-menu" class="hidden md:hidden bg-slate-900 border-b border-slate-800 absolute w-full left-0 top-20 shadow-2xl">
+            <div class="px-4 pt-2 pb-6 space-y-2">
+                <a href="#" class="block px-3 py-3 text-base font-medium text-slate-300 hover:text-white hover:bg-slate-800 rounded-lg">Comece Aqui</a>
+                <a href="#" class="block px-3 py-3 text-base font-medium text-slate-300 hover:text-white hover:bg-slate-800 rounded-lg">Home Assistant</a>
+                <a href="#" class="block px-3 py-3 text-base font-medium text-slate-300 hover:text-white hover:bg-slate-800 rounded-lg">Hardware & Zigbee</a>
+                <a href="#" class="block px-3 py-3 text-base font-medium text-slate-300 hover:text-white hover:bg-slate-800 rounded-lg">Câmeras Sem Nuvem</a>
+                <a href="#" class="block px-3 py-3 text-base font-medium text-slate-300 hover:text-white hover:bg-slate-800 rounded-lg">Projetos DIY</a>
+                <a href="#calculadora" class="block px-3 py-3 text-base font-medium text-emerald-400 hover:text-emerald-300 hover:bg-slate-800 rounded-lg">Calculadora de Economia</a>
+                
+                <div class="mt-4 pt-4 border-t border-slate-800">
+                    <a href="#guia" class="block w-full text-center px-5 py-3 bg-cyan-500 text-slate-950 font-bold rounded-xl shadow-neon-cyan">Guia do Servidor Local</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="pt-24 pb-20">
+        
+        <!-- 2. Hero Section -->
+        <section class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24 text-center">
+            <!-- Background Decoration -->
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] bg-cyan-500/10 blur-[120px] rounded-full pointer-events-none"></div>
+            
+            <div class="relative z-10 max-w-4xl mx-auto">
+                <h2 class="font-heading text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 leading-tight">
+                    Sua Casa Inteligente de Verdade: <br class="hidden md:block"/>
+                    <span class="text-gradient">100% Local, Rápida e Privada</span>
+                </h2>
+                
+                <p class="text-lg md:text-xl text-slate-400 mb-10 max-w-3xl mx-auto leading-relaxed">
+                    Aprenda a automatizar iluminação, segurança, climatização e energia sem depender de nuvens externas, sem risco de dados vazados e funcionando mesmo quando a internet cai.
+                </p>
+                
+                <!-- Badges -->
+                <div class="flex flex-wrap justify-center gap-4 mb-12">
+                    <div class="flex items-center gap-2 bg-slate-900 border border-slate-800 px-4 py-2 rounded-full text-sm font-medium text-slate-300 shadow-sm">
+                        <span class="text-cyan-400">⚡</span> Funciona sem Internet
+                    </div>
+                    <div class="flex items-center gap-2 bg-slate-900 border border-slate-800 px-4 py-2 rounded-full text-sm font-medium text-slate-300 shadow-sm">
+                        <span class="text-emerald-400">🔒</span> Privacidade Total
+                    </div>
+                    <div class="flex items-center gap-2 bg-slate-900 border border-emerald-500/30 px-4 py-2 rounded-full text-sm font-medium text-emerald-400 shadow-neon-emerald bg-emerald-500/5">
+                        <span class="text-emerald-400">💰</span> R$ 0 em Assinaturas
+                    </div>
+                </div>
+
+                <!-- Hero Search -->
+                <div class="max-w-2xl mx-auto relative group">
+                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <svg class="h-6 w-6 text-slate-500 group-focus-within:text-cyan-500 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                    </div>
+                    <input type="text" class="block w-full pl-12 pr-4 py-4 md:py-5 bg-slate-900 border border-slate-700 rounded-2xl text-base md:text-lg text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all shadow-lg" placeholder="Ex: Home Assistant em Mini PC, Melhores sensores Zigbee...">
+                    <button class="absolute inset-y-2 right-2 px-6 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold rounded-xl transition-colors">Buscar</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. Trilhas de Aprendizado Rápidas -->
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <h3 class="text-sm font-bold text-slate-500 uppercase tracking-widest mb-6 text-center">Trilhas Essenciais</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Track 1 -->
+                <a href="#" class="card-hover bg-slate-900 border border-slate-800 p-6 rounded-2xl flex flex-col items-start group">
+                    <div class="w-12 h-12 rounded-xl bg-cyan-500/10 text-cyan-400 flex items-center justify-center mb-4 group-hover:bg-cyan-500 group-hover:text-slate-950 transition-colors">
+                        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    </div>
+                    <h4 class="font-heading font-bold text-lg text-slate-100 mb-2">Iniciante no Setup</h4>
+                    <p class="text-sm text-slate-400">O que comprar no primeiro setup. Hub vs. Mini PC dedicado.</p>
+                </a>
+                <!-- Track 2 -->
+                <a href="#" class="card-hover bg-slate-900 border border-slate-800 p-6 rounded-2xl flex flex-col items-start group">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center mb-4 group-hover:bg-emerald-500 group-hover:text-slate-950 transition-colors">
+                        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                    </div>
+                    <h4 class="font-heading font-bold text-lg text-slate-100 mb-2">Segurança S/ Nuvem</h4>
+                    <p class="text-sm text-slate-400">Câmeras IP com gravação local e IA de detecção offline.</p>
+                </a>
+                <!-- Track 3 -->
+                <a href="#" class="card-hover bg-slate-900 border border-slate-800 p-6 rounded-2xl flex flex-col items-start group">
+                    <div class="w-12 h-12 rounded-xl bg-amber-500/10 text-amber-500 flex items-center justify-center mb-4 group-hover:bg-amber-500 group-hover:text-slate-950 transition-colors">
+                        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                    </div>
+                    <h4 class="font-heading font-bold text-lg text-slate-100 mb-2">Conforto & Rotinas</h4>
+                    <p class="text-sm text-slate-400">Ar-condicionado, cortinas motorizadas e iluminação circadiana.</p>
+                </a>
+                <!-- Track 4 -->
+                <a href="#" class="card-hover bg-slate-900 border border-slate-800 p-6 rounded-2xl flex flex-col items-start group">
+                    <div class="w-12 h-12 rounded-xl bg-purple-500/10 text-purple-400 flex items-center justify-center mb-4 group-hover:bg-purple-500 group-hover:text-slate-950 transition-colors">
+                        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0"></path></svg>
+                    </div>
+                    <h4 class="font-heading font-bold text-lg text-slate-100 mb-2">Zigbee vs Matter</h4>
+                    <p class="text-sm text-slate-400">Qual protocolo de comunicação escolher para sua casa.</p>
+                </a>
+            </div>
+        </section>
+
+        <!-- 3. Artigo Principal em Destaque -->
+        <section id="guia" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl relative group card-hover">
+                <div class="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-900/90 to-transparent z-10"></div>
+                <!-- Placeholder Image - Using a tech pattern gradient -->
+                <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80')] bg-cover bg-center opacity-40"></div>
+                
+                <div class="relative z-20 p-8 lg:p-12 flex flex-col lg:flex-row items-center lg:items-end justify-between h-full min-h-[400px]">
+                    <div class="max-w-2xl">
+                        <div class="flex flex-wrap gap-3 mb-6">
+                            <span class="px-3 py-1 bg-cyan-500 text-slate-950 text-xs font-bold rounded-full uppercase tracking-wider">Tutorial Passo a Passo</span>
+                            <span class="px-3 py-1 bg-slate-800/80 backdrop-blur text-slate-300 border border-slate-700 text-xs font-medium rounded-full flex items-center gap-1">⏱️ 8 min</span>
+                            <span class="px-3 py-1 bg-slate-800/80 backdrop-blur text-slate-300 border border-slate-700 text-xs font-medium rounded-full flex items-center gap-1">🟢 Iniciante</span>
+                            <span class="px-3 py-1 bg-amber-500/20 text-amber-400 border border-amber-500/30 text-xs font-medium rounded-full flex items-center gap-1">🛠️ Hardware Testado</span>
+                        </div>
+                        <h2 class="font-heading text-3xl md:text-4xl font-bold text-white mb-4 leading-tight">
+                            Guia Definitivo: Como Montar seu Servidor Home Assistant em um Mini PC Usado gastando pouco
+                        </h2>
+                        <p class="text-slate-300 text-lg mb-8 max-w-xl">
+                            Abandone os hubs limitados. Aprenda a instalar o sistema operacional mais poderoso para automação residencial em um hardware barato e confiável.
+                        </p>
+                        <a href="#" class="inline-flex items-center justify-center px-6 py-3 bg-white text-slate-950 font-bold rounded-xl hover:bg-slate-200 transition-colors gap-2">
+                            Ler Guia Completo 
+                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. Grid de Artigos -->
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <div class="flex justify-between items-end mb-10">
+                <div>
+                    <h2 class="font-heading text-3xl font-bold text-slate-100 mb-2">Projetos & Reviews</h2>
+                    <p class="text-slate-400 text-sm">Equipamentos homologados e tutoriais testados na prática.</p>
+                </div>
+                
+                <!-- Filters -->
+                <div class="hidden md:flex gap-2" id="article-filters">
+                    <button class="filter-btn active px-4 py-2 bg-slate-800 text-white rounded-lg text-sm font-medium hover:bg-slate-700 transition-colors border border-slate-700" data-filter="all">Todos</button>
+                    <button class="filter-btn px-4 py-2 bg-slate-900 text-slate-400 rounded-lg text-sm font-medium hover:bg-slate-800 hover:text-white transition-colors border border-slate-800" data-filter="zigbee">Zigbee</button>
+                    <button class="filter-btn px-4 py-2 bg-slate-900 text-slate-400 rounded-lg text-sm font-medium hover:bg-slate-800 hover:text-white transition-colors border border-slate-800" data-filter="diy">DIY / ESP32</button>
+                    <button class="filter-btn px-4 py-2 bg-slate-900 text-slate-400 rounded-lg text-sm font-medium hover:bg-slate-800 hover:text-white transition-colors border border-slate-800" data-filter="cameras">Câmeras</button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="articles-grid">
+                
+                <!-- Card 1 -->
+                <article class="card-hover bg-slate-900 rounded-2xl overflow-hidden border border-slate-800 flex flex-col h-full article-card" data-category="zigbee">
+                    <div class="h-48 bg-slate-800 relative">
+                        <img src="https://images.unsplash.com/photo-1558089687-f282ffcbc126?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Sensores Zigbee" class="w-full h-full object-cover opacity-80">
+                        <div class="absolute top-4 left-4">
+                            <span class="px-2.5 py-1 bg-blue-600 text-white text-[10px] font-bold uppercase rounded-md shadow-md">Zigbee</span>
+                        </div>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow">
+                        <h3 class="font-heading text-xl font-bold text-slate-100 mb-3 hover:text-cyan-400 transition-colors"><a href="#">Os 5 Melhores Sensores de Presença Zigbee (2026)</a></h3>
+                        <p class="text-slate-400 text-sm mb-6 flex-grow">Comparativo definitivo entre Aqara, Sonoff e Tuya para automação de iluminação com resposta instantânea e bateria duradoura.</p>
+                        
+                        <div class="mb-6">
+                            <p class="text-xs font-mono text-slate-500 mb-2 uppercase">Hardware Recomendado:</p>
+                            <ul class="text-sm text-slate-300 space-y-1">
+                                <li class="flex items-center gap-2"><span class="text-amber-500">•</span> Sonoff SNZB-06P</li>
+                                <li class="flex items-center gap-2"><span class="text-amber-500">•</span> Aqara FP2 (WiFi/Local)</li>
+                            </ul>
+                        </div>
+                        
+                        <a href="#" class="mt-auto w-full py-2.5 px-4 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-center text-sm font-medium text-white rounded-xl transition-colors">Ler Review Completo</a>
+                    </div>
+                </article>
+
+                <!-- Card 2 -->
+                <article class="card-hover bg-slate-900 rounded-2xl overflow-hidden border border-slate-800 flex flex-col h-full article-card" data-category="diy">
+                    <div class="h-48 bg-slate-800 relative">
+                        <img src="https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Placa ESP32" class="w-full h-full object-cover opacity-80">
+                        <div class="absolute top-4 left-4">
+                            <span class="px-2.5 py-1 bg-amber-600 text-white text-[10px] font-bold uppercase rounded-md shadow-md">ESPHome / DIY</span>
+                        </div>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow">
+                        <h3 class="font-heading text-xl font-bold text-slate-100 mb-3 hover:text-cyan-400 transition-colors"><a href="#">Medidor de Energia Caseiro com ESP32 e PZEM</a></h3>
+                        <p class="text-slate-400 text-sm mb-6 flex-grow">Monitore o consumo elétrico da sua casa em tempo real no Home Assistant sem pagar fortunas por medidores comerciais.</p>
+                        
+                        <div class="mb-6">
+                            <p class="text-xs font-mono text-slate-500 mb-2 uppercase">Hardware Recomendado:</p>
+                            <ul class="text-sm text-slate-300 space-y-1">
+                                <li class="flex items-center gap-2"><span class="text-amber-500">•</span> NodeMCU ESP32</li>
+                                <li class="flex items-center gap-2"><span class="text-amber-500">•</span> PZEM-004T v3.0</li>
+                            </ul>
+                        </div>
+                        
+                        <a href="#" class="mt-auto w-full py-2.5 px-4 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-center text-sm font-medium text-white rounded-xl transition-colors">Ver Tutorial & Esquema</a>
+                    </div>
+                </article>
+
+                <!-- Card 3 -->
+                <article class="card-hover bg-slate-900 rounded-2xl overflow-hidden border border-slate-800 flex flex-col h-full article-card" data-category="cameras">
+                    <div class="h-48 bg-slate-800 relative">
+                        <img src="https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Câmera de Segurança" class="w-full h-full object-cover opacity-80">
+                        <div class="absolute top-4 left-4">
+                            <span class="px-2.5 py-1 bg-emerald-600 text-white text-[10px] font-bold uppercase rounded-md shadow-md">Câmeras / Frigate</span>
+                        </div>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow">
+                        <h3 class="font-heading text-xl font-bold text-slate-100 mb-3 hover:text-cyan-400 transition-colors"><a href="#">CFTV Inteligente: Frigate NVR + Google Coral</a></h3>
+                        <p class="text-slate-400 text-sm mb-6 flex-grow">Transforme câmeras baratas em um sistema de segurança de ponta com detecção de pessoas e carros via IA processada localmente.</p>
+                        
+                        <div class="mb-6">
+                            <p class="text-xs font-mono text-slate-500 mb-2 uppercase">Hardware Recomendado:</p>
+                            <ul class="text-sm text-slate-300 space-y-1">
+                                <li class="flex items-center gap-2"><span class="text-amber-500">•</span> Google Coral USB</li>
+                                <li class="flex items-center gap-2"><span class="text-amber-500">•</span> Câmeras Reolink / Tapo (RTSP)</li>
+                            </ul>
+                        </div>
+                        
+                        <a href="#" class="mt-auto w-full py-2.5 px-4 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-center text-sm font-medium text-white rounded-xl transition-colors">Ver Tutorial Completo</a>
+                    </div>
+                </article>
+                
+            </div>
+        </section>
+
+        <!-- 6. Bloco Interativo: Calculadora -->
+        <section id="calculadora" class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <div class="bg-gradient-to-br from-slate-900 to-slate-800 border border-slate-700 rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden">
+                <!-- Decor grid -->
+                <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCI+PGNpcmNsZSBjeD0iMiIgY3k9IjIiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wNSkiLz48L3N2Zz4=')]"></div>
+                
+                <div class="relative z-10 text-center mb-10">
+                    <span class="inline-block p-3 bg-emerald-500/20 text-emerald-400 rounded-2xl mb-4 shadow-neon-emerald">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    </span>
+                    <h2 class="font-heading text-3xl font-bold text-white mb-2">Calculadora de Economia</h2>
+                    <p class="text-slate-400">Descubra quanto você economiza por ano eliminando mensalidades de nuvem para câmeras e hubs.</p>
+                </div>
+
+                <div class="relative z-10 bg-slate-950/50 rounded-2xl p-6 md:p-8 border border-slate-800">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                        
+                        <!-- Inputs -->
+                        <div class="space-y-6">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-300 mb-2">Quantidade de Câmeras (Gravação em Nuvem)</label>
+                                <div class="flex items-center gap-4">
+                                    <input type="range" id="cam-slider" min="0" max="10" value="2" class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-cyan-500">
+                                    <span id="cam-val" class="text-xl font-mono font-bold text-cyan-400 w-8 text-center">2</span>
+                                </div>
+                                <p class="text-xs text-slate-500 mt-1">Estimativa: R$ 15/mês por câmera</p>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-slate-300 mb-2">Hubs / Serviços Premium (ex: IFTTT, Alexa Pro)</label>
+                                <div class="flex items-center gap-4">
+                                    <input type="range" id="hub-slider" min="0" max="3" value="1" class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-cyan-500">
+                                    <span id="hub-val" class="text-xl font-mono font-bold text-cyan-400 w-8 text-center">1</span>
+                                </div>
+                                <p class="text-xs text-slate-500 mt-1">Estimativa: R$ 30/mês por serviço</p>
+                            </div>
+                        </div>
+
+                        <!-- Result -->
+                        <div class="bg-slate-900 border border-slate-700 rounded-xl p-6 text-center shadow-lg relative overflow-hidden">
+                            <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-emerald-400 to-cyan-500"></div>
+                            <p class="text-sm font-medium text-slate-400 mb-2">Economia Estimada</p>
+                            <div class="text-4xl md:text-5xl font-heading font-bold text-white mb-2" id="calc-result">
+                                R$ <span class="text-emerald-400">720</span>
+                            </div>
+                            <p class="text-sm text-slate-400">por ano com servidor local</p>
+                            
+                            <div class="mt-6 pt-6 border-t border-slate-800">
+                                <p class="text-xs text-slate-500 mb-3">O hardware local (Mini PC) se paga em aprox. <span id="roi-val" class="text-slate-300 font-bold">10</span> meses.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. Banner de Captura / Lead Magnet -->
+        <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <div class="bg-slate-900 border border-slate-800 rounded-3xl p-1 relative overflow-hidden group">
+                <!-- Glowing border effect -->
+                <div class="absolute inset-0 bg-gradient-to-r from-cyan-500/30 to-emerald-500/30 opacity-50 group-hover:opacity-100 transition-opacity blur-xl"></div>
+                
+                <div class="relative bg-slate-950 rounded-[22px] p-8 md:p-12 flex flex-col md:flex-row items-center gap-8 justify-between z-10 border border-slate-800/50 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCI+PHBhdGggZD0iTTAgMGg0MHY0MEgweiIgZmlsbD0ibm9uZSIvPjxwYXRoIGQ9Ik0wIDEwaDQwTTEwIDB2NDAiIHN0cm9rZT0icmdiYSg1NiwxODksMjQ4LDAuMDUpIiBzdHJva2Utd2lkdGg9IjEiLz48L3N2Zz4=')]">
+                    
+                    <div class="max-w-xl">
+                        <div class="flex items-center gap-2 mb-4">
+                            <span class="px-2 py-1 bg-slate-800 text-slate-300 text-xs font-mono rounded">PDF.ZIP (12MB)</span>
+                            <span class="text-cyan-400 text-sm font-bold">Gratuito</span>
+                        </div>
+                        <h2 class="font-heading text-2xl md:text-3xl font-bold text-white mb-3">
+                            Baixe a Lista de Hardware & Scripts Prontos
+                        </h2>
+                        <p class="text-slate-400 text-sm md:text-base mb-6">
+                            Receba nosso blueprint técnico com links de peças no AliExpress, configurações YAML para Home Assistant e diagrama de rede seguro.
+                        </p>
+                    </div>
+
+                    <div class="w-full md:w-auto flex-shrink-0 bg-slate-900 p-6 rounded-2xl border border-slate-800 w-full max-w-sm">
+                        <form class="space-y-4" onsubmit="event.preventDefault(); alert('E-mail cadastrado com sucesso! Em breve você receberá o material.');">
+                            <div>
+                                <input type="email" required placeholder="Seu melhor e-mail técnico" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all">
+                            </div>
+                            <button type="submit" class="w-full py-3 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold rounded-xl transition-all shadow-neon-emerald">
+                                Receber PDF Gratuito
+                            </button>
+                            <p class="text-[10px] text-slate-500 text-center font-mono mt-2">Zero spam. Cancele quando quiser.</p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- 8. Footer -->
+    <footer class="bg-slate-950 border-t border-slate-900 pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+                
+                <div class="col-span-1 md:col-span-1">
+                    <div class="flex items-center gap-2 mb-6">
+                        <div class="w-8 h-8 rounded-lg bg-cyan-500 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-slate-950" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                        </div>
+                        <span class="font-heading font-bold text-lg text-white">Sua Casa Autônoma</span>
+                    </div>
+                    <p class="text-sm text-slate-400 mb-6">
+                        Descomplicando a automação residencial de código aberto. Sem nuvem, sem mensalidade, focado em privacidade e controle real.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="font-heading font-bold text-white mb-4">Hardware</h4>
+                    <ul class="space-y-2 text-sm text-slate-400">
+                        <li><a href="#" class="hover:text-cyan-400 transition-colors">Mini PCs para HA</a></li>
+                        <li><a href="#" class="hover:text-cyan-400 transition-colors">Sensores Zigbee</a></li>
+                        <li><a href="#" class="hover:text-cyan-400 transition-colors">Relés Inteligentes</a></li>
+                        <li><a href="#" class="hover:text-cyan-400 transition-colors">Câmeras IP / NVR</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-heading font-bold text-white mb-4">Software</h4>
+                    <ul class="space-y-2 text-sm text-slate-400">
+                        <li><a href="#" class="hover:text-cyan-400 transition-colors">Home Assistant</a></li>
+                        <li><a href="#" class="hover:text-cyan-400 transition-colors">ESPHome</a></li>
+                        <li><a href="#" class="hover:text-cyan-400 transition-colors">Zigbee2MQTT</a></li>
+                        <li><a href="#" class="hover:text-cyan-400 transition-colors">Frigate (IA)</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-heading font-bold text-white mb-4">Comunidade</h4>
+                    <ul class="space-y-2 text-sm text-slate-400">
+                        <li><a href="#" class="hover:text-cyan-400 transition-colors">Fórum Oficial HA</a></li>
+                        <li><a href="#" class="hover:text-cyan-400 transition-colors">GitHub dos Projetos</a></li>
+                        <li><a href="#" class="hover:text-cyan-400 transition-colors">Grupo no Telegram</a></li>
+                        <li><a href="#" class="hover:text-cyan-400 transition-colors">Apoie o Projeto</a></li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-xs text-slate-500 font-mono text-center md:text-left max-w-2xl">
+                    Transparência: Alguns links neste site são de afiliados. Recomendamos apenas equipamentos exaustivamente testados por nossa equipe e que funcionam 100% localmente, sem dependência de nuvem.
+                </p>
+                <p class="text-xs text-slate-500 whitespace-nowrap">
+                    &copy; 2026 Sua Casa Autônoma.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 9. Javascript Vanilla -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // --- Menu Mobile Toggle ---
+            const btn = document.getElementById('mobile-menu-btn');
+            const menu = document.getElementById('mobile-menu');
+            const menuIcon = document.getElementById('menu-icon');
+            const closeIcon = document.getElementById('close-icon');
+
+            btn.addEventListener('click', () => {
+                menu.classList.toggle('hidden');
+                menuIcon.classList.toggle('hidden');
+                closeIcon.classList.toggle('hidden');
+            });
+
+            // --- Calculadora de Economia Interativa ---
+            const camSlider = document.getElementById('cam-slider');
+            const hubSlider = document.getElementById('hub-slider');
+            const camVal = document.getElementById('cam-val');
+            const hubVal = document.getElementById('hub-val');
+            const resultEl = document.getElementById('calc-result');
+            const roiVal = document.getElementById('roi-val');
+            
+            const costPerCam = 15; // R$/mês
+            const costPerHub = 30; // R$/mês
+            const miniPcCost = 600; // Custo médio Mini PC
+
+            function calculateSavings() {
+                const cams = parseInt(camSlider.value);
+                const hubs = parseInt(hubSlider.value);
+                
+                camVal.textContent = cams;
+                hubVal.textContent = hubs;
+                
+                const monthlySavings = (cams * costPerCam) + (hubs * costPerHub);
+                const yearlySavings = monthlySavings * 12;
+                
+                // Animação de número (simples)
+                resultEl.innerHTML = `R$ <span class="text-emerald-400">${yearlySavings}</span>`;
+                
+                if(monthlySavings > 0) {
+                    const roi = Math.ceil(miniPcCost / monthlySavings);
+                    roiVal.textContent = roi;
+                    roiVal.parentElement.style.display = 'block';
+                } else {
+                    roiVal.parentElement.style.display = 'none';
+                }
+            }
+
+            camSlider.addEventListener('input', calculateSavings);
+            hubSlider.addEventListener('input', calculateSavings);
+            calculateSavings(); // Init
+
+            // --- Filtro de Artigos ---
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const articles = document.querySelectorAll('.article-card');
+
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    // Reset active state
+                    filterBtns.forEach(b => {
+                        b.classList.remove('bg-slate-800', 'text-white', 'active');
+                        b.classList.add('bg-slate-900', 'text-slate-400');
+                    });
+                    
+                    // Set active state on clicked
+                    btn.classList.add('bg-slate-800', 'text-white', 'active');
+                    btn.classList.remove('bg-slate-900', 'text-slate-400');
+                    
+                    const filter = btn.getAttribute('data-filter');
+                    
+                    articles.forEach(article => {
+                        if(filter === 'all' || article.getAttribute('data-category') === filter) {
+                            article.style.display = 'flex';
+                        } else {
+                            article.style.display = 'none';
+                        }
+                    });
+                });
+            });
+
+        });
+    </script>
+</body>
+</html>
